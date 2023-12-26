@@ -4,12 +4,18 @@
     ViewData["Title"] = "Create";
 }
 
+<p id="demo"></p>
+
 <h1>Create</h1>
 
 <h4>RunningSession</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
+        <p>Click the button to get your coordinates.</p>
+
+        <button id="Button1" onclick="getLocation()">Get location</button>
+
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -53,3 +59,20 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script>
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition);
+        } else {
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    }
+
+    function showPosition(position) {
+        x.innerHTML = "Latitude: " + position.coords.latitude +
+            "<br>Longitude: " + position.coords.longitude;
+    }
+</script>
