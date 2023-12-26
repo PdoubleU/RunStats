@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RunStats.Data;
 using RunStats.Models;
+using RunStats.Services;
 
 namespace RunStats.Controllers
 {
@@ -61,12 +62,22 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
+        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,ShoesId")] RunningSession runningSession)
         {
-            string messages = string.Join("; ", ModelState.Values
-                            .SelectMany(x => x.Errors)
-                            .Select(x => x.ErrorMessage));
+            // load weather data from remote API and store it in DB
+            WeatherService weatherService = new WeatherService();
 
+                string messages = string.Join("; ", ModelState.Values
+                                .SelectMany(x => x.Errors)
+                                .Select(x => x.ErrorMessage));
+
+            Weather? currentWeather = await weatherService.GetWeatherAsync();
+
+            _context.Add(currentWeather);
+            await _context.SaveChangesAsync();
+            runningSession.WeatherId = currentWeather.Id;
+
+            // create running session with the Weather ID
             if (ModelState.IsValid)
             {
                 _context.Add(runningSession);
