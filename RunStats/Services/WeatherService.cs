@@ -30,11 +30,13 @@ namespace RunStats.Services
 
                 LocationData location = LocationService.getAddress(lat, lng);
 
+                Console.WriteLine(location.ToString());
+
                 return new Weather
                 {
                     Temperature = 10.4,
                     Date = DateTime.Now,
-                    Location = $"{location.address.city}",
+                    Location = $"{location.address.city ?? location.display_name}",
                     Moisture = 66,
                     Clouds = 25,
                     WindSpeed = 15

@@ -23,7 +23,7 @@ namespace RunStats.Controllers
         // GET: RunningSessions
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.RunningSession.Include(r => r.ExerciseType).Include(r => r.Shoes).Include(r => r.User);
+            var applicationDbContext = _context.RunningSession.Include(r => r.ExerciseType).Include(r => r.Shoes).Include(r => r.User).Include(r => r.Weather);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -62,20 +62,20 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,ShoesId,")] RunningSession runningSession)
+        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,ShoesId,")] RunningSession runningSession, string longitude, string latitude)
         {
-            // load weather data from remote API and store it in DB
-            WeatherService weatherService = new WeatherService();
-
-            Weather? currentWeather = await weatherService.GetWeatherAsync("5", "5");
-
-            _context.Add(currentWeather);
-            await _context.SaveChangesAsync();
-            runningSession.WeatherId = currentWeather.Id;
-
             // create running session with the Weather ID
             if (ModelState.IsValid)
             {
+                // load weather data from remote API and store it in DB
+                WeatherService weatherService = new WeatherService();
+
+                Weather? currentWeather = await weatherService.GetWeatherAsync(latitude, longitude);
+
+                 _context.Add(currentWeather);
+                await _context.SaveChangesAsync();
+                runningSession.WeatherId = currentWeather.Id;
+
                 _context.Add(runningSession);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

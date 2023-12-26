@@ -53,6 +53,7 @@ namespace RunStats.Services
             var jsonData = webClient.DownloadData("http://nominatim.openstreetmap.org/reverse?format=json&lat=" + lat + "&lon=" + lng);
             DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(LocationData));
             LocationData locationData = (LocationData)ser.ReadObject(new MemoryStream(jsonData));
+
             return locationData;
         }
     }

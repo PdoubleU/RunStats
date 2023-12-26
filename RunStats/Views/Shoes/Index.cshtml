@@ -19,7 +19,7 @@
                 @Html.DisplayNameFor(model => model.TotalDistance)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ShoesType)
+                @Html.DisplayNameFor(model => model.ShoesType.TypeName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User)
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.TotalDistance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ShoesType.Id)
+                @Html.DisplayFor(modelItem => item.ShoesType.TypeName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Id)
