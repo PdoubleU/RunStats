@@ -25,13 +25,16 @@
                 @Html.DisplayNameFor(model => model.User)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExerciseType)
+                @Html.DisplayNameFor(model => model.ExerciseType.ExerciseName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.WeatherId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Shoes)
+                @Html.DisplayNameFor(model => model.Weather.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Shoes.Model)
             </th>
             <th></th>
         </tr>
@@ -52,13 +55,16 @@
                 @Html.DisplayFor(modelItem => item.User.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ExerciseType.Id)
+                @Html.DisplayFor(modelItem => item.ExerciseType.ExerciseName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.WeatherId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Shoes.Id)
+                @Html.DisplayFor(modelItem => item.Weather.Location)
+             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Shoes.Model)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

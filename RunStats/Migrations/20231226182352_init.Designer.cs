@@ -12,7 +12,7 @@ using RunStats.Data;
 namespace RunStats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231226125221_init")]
+    [Migration("20231226182352_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

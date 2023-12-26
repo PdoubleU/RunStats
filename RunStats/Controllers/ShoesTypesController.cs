@@ -22,9 +22,9 @@ namespace RunStats.Controllers
         // GET: ShoesTypes
         public async Task<IActionResult> Index()
         {
-              return _context.ShoesType != null ? 
-                          View(await _context.ShoesType.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.ShoesType'  is null.");
+            return _context.ShoesType != null ?
+                        View(await _context.ShoesType.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.ShoesType'  is null.");
         }
 
         // GET: ShoesTypes/Details/5
@@ -150,14 +150,14 @@ namespace RunStats.Controllers
             {
                 _context.ShoesType.Remove(shoesType);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShoesTypeExists(int id)
         {
-          return (_context.ShoesType?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.ShoesType?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

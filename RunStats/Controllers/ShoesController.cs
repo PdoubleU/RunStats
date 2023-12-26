@@ -156,14 +156,14 @@ namespace RunStats.Controllers
             {
                 _context.Shoes.Remove(shoes);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ShoesExists(int id)
         {
-          return (_context.Shoes?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Shoes?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

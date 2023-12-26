@@ -22,9 +22,9 @@ namespace RunStats.Controllers
         // GET: ExerciseTypes
         public async Task<IActionResult> Index()
         {
-              return _context.ExerciseType != null ? 
-                          View(await _context.ExerciseType.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.ExerciseType'  is null.");
+            return _context.ExerciseType != null ?
+                        View(await _context.ExerciseType.ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.ExerciseType'  is null.");
         }
 
         // GET: ExerciseTypes/Details/5
@@ -150,14 +150,14 @@ namespace RunStats.Controllers
             {
                 _context.ExerciseType.Remove(ExerciseType);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ExerciseTypeExists(int id)
         {
-          return (_context.ExerciseType?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.ExerciseType?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

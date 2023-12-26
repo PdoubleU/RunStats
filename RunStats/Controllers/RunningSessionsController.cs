@@ -62,16 +62,12 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,ShoesId")] RunningSession runningSession)
+        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,ShoesId,")] RunningSession runningSession)
         {
             // load weather data from remote API and store it in DB
             WeatherService weatherService = new WeatherService();
 
-                string messages = string.Join("; ", ModelState.Values
-                                .SelectMany(x => x.Errors)
-                                .Select(x => x.ErrorMessage));
-
-            Weather? currentWeather = await weatherService.GetWeatherAsync();
+            Weather? currentWeather = await weatherService.GetWeatherAsync("5", "5");
 
             _context.Add(currentWeather);
             await _context.SaveChangesAsync();
@@ -182,14 +178,14 @@ namespace RunStats.Controllers
             {
                 _context.RunningSession.Remove(runningSession);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RunningSessionExists(int id)
         {
-          return (_context.RunningSession?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.RunningSession?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

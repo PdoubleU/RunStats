@@ -12,10 +12,6 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <p>Click the button to get your coordinates.</p>
-
-        <button id="Button1" onclick="getLocation()">Get location</button>
-
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -46,6 +42,10 @@
                 <select asp-for="ShoesId" class ="form-control" asp-items="ViewBag.ShoesId"></select>
             </div>
             <div class="form-group">
+@*                <input asp-for="Longitude" class="form-control" id="longitude">
+                <input asp-for="Latitude" class="form-control" id="latitude"/>*@
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -60,19 +60,19 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-<script>
-    var x = document.getElementById("demo");
-
-    function getLocation() {
+<script type="text/javascript" defer>
+    (function getLocation() {
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(showPosition);
+            navigator.geolocation.getCurrentPosition(loadPosition);
         } else {
-            x.innerHTML = "Geolocation is not supported by this browser.";
+            console.warn("Geolocation is not supported by this browser.");
         }
-    }
+    })();
 
-    function showPosition(position) {
-        x.innerHTML = "Latitude: " + position.coords.latitude +
-            "<br>Longitude: " + position.coords.longitude;
-    }
+    function loadPosition(position) {
+        const latitudeInput = document.getElementById("latitude");
+        const longitudeInput = document.getElementById("longitude");
+        latitudeInput.value = position.coords.latitude;
+        longitudeInput.value = position.coords.longitude;
+    };
 </script>
