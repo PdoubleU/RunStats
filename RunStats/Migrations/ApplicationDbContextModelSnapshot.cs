@@ -232,7 +232,7 @@ namespace RunStats.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("RunStats.Models.ExcerciseType", b =>
+            modelBuilder.Entity("RunStats.Models.ExerciseType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -240,13 +240,13 @@ namespace RunStats.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ExcerciseName")
+                    b.Property<string>("ExerciseName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExcerciseType");
+                    b.ToTable("ExerciseType");
                 });
 
             modelBuilder.Entity("RunStats.Models.RunningSession", b =>
@@ -263,7 +263,7 @@ namespace RunStats.Migrations
                     b.Property<float>("Distance")
                         .HasColumnType("real");
 
-                    b.Property<int>("ExcerciseTypeId")
+                    b.Property<int>("ExerciseTypeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ShoesId")
@@ -281,7 +281,7 @@ namespace RunStats.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExcerciseTypeId");
+                    b.HasIndex("ExerciseTypeId");
 
                     b.HasIndex("ShoesId");
 
@@ -425,9 +425,9 @@ namespace RunStats.Migrations
 
             modelBuilder.Entity("RunStats.Models.RunningSession", b =>
                 {
-                    b.HasOne("RunStats.Models.ExcerciseType", "ExcerciseType")
+                    b.HasOne("RunStats.Models.ExerciseType", "ExerciseType")
                         .WithMany()
-                        .HasForeignKey("ExcerciseTypeId")
+                        .HasForeignKey("ExerciseTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -447,7 +447,7 @@ namespace RunStats.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ExcerciseType");
+                    b.Navigation("ExerciseType");
 
                     b.Navigation("Shoes");
 

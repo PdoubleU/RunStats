@@ -13,8 +13,8 @@ namespace RunStats.Models
 
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
-        public int ExcerciseTypeId { get; set; }
-        public virtual ExcerciseType? ExcerciseType { get; set; }
+        public int ExerciseTypeId { get; set; }
+        public virtual ExerciseType? ExerciseType { get; set; }
         public int WeatherId { get; set; }
         public virtual Weather? Weather { get; set; }
         public int? ShoesId { get; set; }

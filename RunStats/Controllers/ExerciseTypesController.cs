@@ -10,87 +10,87 @@ using RunStats.Models;
 
 namespace RunStats.Controllers
 {
-    public class ExcerciseTypesController : Controller
+    public class ExerciseTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ExcerciseTypesController(ApplicationDbContext context)
+        public ExerciseTypesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: ExcerciseTypes
+        // GET: ExerciseTypes
         public async Task<IActionResult> Index()
         {
-              return _context.ExcerciseType != null ? 
-                          View(await _context.ExcerciseType.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.ExcerciseType'  is null.");
+              return _context.ExerciseType != null ? 
+                          View(await _context.ExerciseType.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.ExerciseType'  is null.");
         }
 
-        // GET: ExcerciseTypes/Details/5
+        // GET: ExerciseTypes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.ExcerciseType == null)
+            if (id == null || _context.ExerciseType == null)
             {
                 return NotFound();
             }
 
-            var excerciseType = await _context.ExcerciseType
+            var ExerciseType = await _context.ExerciseType
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (excerciseType == null)
+            if (ExerciseType == null)
             {
                 return NotFound();
             }
 
-            return View(excerciseType);
+            return View(ExerciseType);
         }
 
-        // GET: ExcerciseTypes/Create
+        // GET: ExerciseTypes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: ExcerciseTypes/Create
+        // POST: ExerciseTypes/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExcerciseName")] ExcerciseType excerciseType)
+        public async Task<IActionResult> Create([Bind("Id,ExerciseName")] ExerciseType ExerciseType)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(excerciseType);
+                _context.Add(ExerciseType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(excerciseType);
+            return View(ExerciseType);
         }
 
-        // GET: ExcerciseTypes/Edit/5
+        // GET: ExerciseTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.ExcerciseType == null)
+            if (id == null || _context.ExerciseType == null)
             {
                 return NotFound();
             }
 
-            var excerciseType = await _context.ExcerciseType.FindAsync(id);
-            if (excerciseType == null)
+            var ExerciseType = await _context.ExerciseType.FindAsync(id);
+            if (ExerciseType == null)
             {
                 return NotFound();
             }
-            return View(excerciseType);
+            return View(ExerciseType);
         }
 
-        // POST: ExcerciseTypes/Edit/5
+        // POST: ExerciseTypes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ExcerciseName")] ExcerciseType excerciseType)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ExerciseName")] ExerciseType ExerciseType)
         {
-            if (id != excerciseType.Id)
+            if (id != ExerciseType.Id)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace RunStats.Controllers
             {
                 try
                 {
-                    _context.Update(excerciseType);
+                    _context.Update(ExerciseType);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ExcerciseTypeExists(excerciseType.Id))
+                    if (!ExerciseTypeExists(ExerciseType.Id))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace RunStats.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(excerciseType);
+            return View(ExerciseType);
         }
 
-        // GET: ExcerciseTypes/Delete/5
+        // GET: ExerciseTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.ExcerciseType == null)
+            if (id == null || _context.ExerciseType == null)
             {
                 return NotFound();
             }
 
-            var excerciseType = await _context.ExcerciseType
+            var ExerciseType = await _context.ExerciseType
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (excerciseType == null)
+            if (ExerciseType == null)
             {
                 return NotFound();
             }
 
-            return View(excerciseType);
+            return View(ExerciseType);
         }
 
-        // POST: ExcerciseTypes/Delete/5
+        // POST: ExerciseTypes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.ExcerciseType == null)
+            if (_context.ExerciseType == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.ExcerciseType'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.ExerciseType'  is null.");
             }
-            var excerciseType = await _context.ExcerciseType.FindAsync(id);
-            if (excerciseType != null)
+            var ExerciseType = await _context.ExerciseType.FindAsync(id);
+            if (ExerciseType != null)
             {
-                _context.ExcerciseType.Remove(excerciseType);
+                _context.ExerciseType.Remove(ExerciseType);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ExcerciseTypeExists(int id)
+        private bool ExerciseTypeExists(int id)
         {
-          return (_context.ExcerciseType?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.ExerciseType?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

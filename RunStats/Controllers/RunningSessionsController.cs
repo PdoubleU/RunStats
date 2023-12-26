@@ -22,7 +22,7 @@ namespace RunStats.Controllers
         // GET: RunningSessions
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.RunningSession.Include(r => r.ExcerciseType).Include(r => r.Shoes).Include(r => r.User);
+            var applicationDbContext = _context.RunningSession.Include(r => r.ExerciseType).Include(r => r.Shoes).Include(r => r.User);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -35,7 +35,7 @@ namespace RunStats.Controllers
             }
 
             var runningSession = await _context.RunningSession
-                .Include(r => r.ExcerciseType)
+                .Include(r => r.ExerciseType)
                 .Include(r => r.Shoes)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);
@@ -50,7 +50,7 @@ namespace RunStats.Controllers
         // GET: RunningSessions/Create
         public IActionResult Create()
         {
-            ViewData["ExcerciseTypeId"] = new SelectList(_context.Set<ExcerciseType>(), "Id", "Id");
+            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>(), "Id", "Id");
             ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>(), "Id", "Id");
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
@@ -61,7 +61,7 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExcerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
+        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
         {
             if (ModelState.IsValid)
             {
@@ -69,7 +69,7 @@ namespace RunStats.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExcerciseTypeId"] = new SelectList(_context.Set<ExcerciseType>(), "Id", "Id", runningSession.ExcerciseTypeId);
+            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>(), "Id", "Id", runningSession.ExerciseTypeId);
             ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>(), "Id", "Id", runningSession.ShoesId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", runningSession.UserId);
             return View(runningSession);
@@ -88,7 +88,7 @@ namespace RunStats.Controllers
             {
                 return NotFound();
             }
-            ViewData["ExcerciseTypeId"] = new SelectList(_context.Set<ExcerciseType>(), "Id", "Id", runningSession.ExcerciseTypeId);
+            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>(), "Id", "Id", runningSession.ExerciseTypeId);
             ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>(), "Id", "Id", runningSession.ShoesId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", runningSession.UserId);
             return View(runningSession);
@@ -99,7 +99,7 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Distance,Time,UserId,ExcerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
         {
             if (id != runningSession.Id)
             {
@@ -126,7 +126,7 @@ namespace RunStats.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExcerciseTypeId"] = new SelectList(_context.Set<ExcerciseType>(), "Id", "Id", runningSession.ExcerciseTypeId);
+            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>(), "Id", "Id", runningSession.ExerciseTypeId);
             ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>(), "Id", "Id", runningSession.ShoesId);
             ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", runningSession.UserId);
             return View(runningSession);
@@ -141,7 +141,7 @@ namespace RunStats.Controllers
             }
 
             var runningSession = await _context.RunningSession
-                .Include(r => r.ExcerciseType)
+                .Include(r => r.ExerciseType)
                 .Include(r => r.Shoes)
                 .Include(r => r.User)
                 .FirstOrDefaultAsync(m => m.Id == id);

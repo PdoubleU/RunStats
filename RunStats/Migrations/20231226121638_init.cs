@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RunStats.Migrations
 {
-    public partial class force : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -48,6 +48,50 @@ namespace RunStats.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExerciseType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ExerciseName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExerciseType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ShoesType",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TypeName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShoesType", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Weather",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Temperature = table.Column<double>(type: "float", nullable: false),
+                    Moisture = table.Column<int>(type: "int", nullable: false),
+                    Clouds = table.Column<int>(type: "int", nullable: false),
+                    WindSpeed = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Weather", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +200,76 @@ namespace RunStats.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Shoes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalDistance = table.Column<float>(type: "real", nullable: false),
+                    ShoesTypeId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Shoes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Shoes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Shoes_ShoesType_ShoesTypeId",
+                        column: x => x.ShoesTypeId,
+                        principalTable: "ShoesType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "RunningSession",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Distance = table.Column<float>(type: "real", nullable: false),
+                    Time = table.Column<float>(type: "real", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ExerciseTypeId = table.Column<int>(type: "int", nullable: false),
+                    WeatherId = table.Column<int>(type: "int", nullable: false),
+                    ShoesId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RunningSession", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_RunningSession_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RunningSession_ExerciseType_ExerciseTypeId",
+                        column: x => x.ExerciseTypeId,
+                        principalTable: "ExerciseType",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RunningSession_Shoes_ShoesId",
+                        column: x => x.ShoesId,
+                        principalTable: "Shoes",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_RunningSession_Weather_WeatherId",
+                        column: x => x.WeatherId,
+                        principalTable: "Weather",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -194,6 +308,36 @@ namespace RunStats.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RunningSession_ExerciseTypeId",
+                table: "RunningSession",
+                column: "ExerciseTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RunningSession_ShoesId",
+                table: "RunningSession",
+                column: "ShoesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RunningSession_UserId",
+                table: "RunningSession",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RunningSession_WeatherId",
+                table: "RunningSession",
+                column: "WeatherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shoes_ShoesTypeId",
+                table: "Shoes",
+                column: "ShoesTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Shoes_UserId",
+                table: "Shoes",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -214,10 +358,25 @@ namespace RunStats.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "RunningSession");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "ExerciseType");
+
+            migrationBuilder.DropTable(
+                name: "Shoes");
+
+            migrationBuilder.DropTable(
+                name: "Weather");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "ShoesType");
         }
     }
 }

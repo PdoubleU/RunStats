@@ -2,10 +2,10 @@
 
 namespace RunStats.Models
 {
-    public class ExcerciseType
+    public class ExerciseType
     {
         [Key]
         public int Id { get; set; }
-        public string ExcerciseName { get; set; }
+        public string ExerciseName { get; set; }
     }
 }

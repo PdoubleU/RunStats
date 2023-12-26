@@ -12,7 +12,7 @@ namespace RunStats.Data
         }
         public DbSet<RunStats.Models.RunningSession>? RunningSession { get; set; }
         public DbSet<RunStats.Models.Shoes>? Shoes { get; set; }
-        public DbSet<RunStats.Models.ExcerciseType>? ExcerciseType { get; set; }
+        public DbSet<RunStats.Models.ExerciseType>? ExerciseType { get; set; }
         public DbSet<RunStats.Models.ShoesType>? ShoesType { get; set; }
     }
 }
