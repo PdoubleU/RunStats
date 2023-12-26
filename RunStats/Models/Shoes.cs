@@ -7,10 +7,10 @@ namespace RunStats.Models
         [Key]
         public int Id { get; set; }
         public string Model { get; set; }
-        public float TotalDistance { get; set; }
+        public int TotalDistance { get; set; }
         public int ShoesTypeId { get; set; }
         public virtual ShoesType? ShoesType { get; set; }
         public string UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
     }
 }

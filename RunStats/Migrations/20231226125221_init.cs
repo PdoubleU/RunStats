@@ -207,7 +207,7 @@ namespace RunStats.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TotalDistance = table.Column<float>(type: "real", nullable: false),
+                    TotalDistance = table.Column<int>(type: "int", nullable: false),
                     ShoesTypeId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -235,8 +235,8 @@ namespace RunStats.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Distance = table.Column<float>(type: "real", nullable: false),
-                    Time = table.Column<float>(type: "real", nullable: false),
+                    Distance = table.Column<int>(type: "int", nullable: false),
+                    Time = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ExerciseTypeId = table.Column<int>(type: "int", nullable: false),
                     WeatherId = table.Column<int>(type: "int", nullable: false),

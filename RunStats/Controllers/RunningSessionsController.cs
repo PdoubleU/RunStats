@@ -63,6 +63,10 @@ namespace RunStats.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
         {
+            string messages = string.Join("; ", ModelState.Values
+                            .SelectMany(x => x.Errors)
+                            .Select(x => x.ErrorMessage));
+
             if (ModelState.IsValid)
             {
                 _context.Add(runningSession);

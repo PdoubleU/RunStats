@@ -8,11 +8,11 @@ namespace RunStats.Models
         [Key]
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public float Distance { get; set; }
-        public float Time { get; set; }
+        public int Distance { get; set; }
+        public int Time { get; set; }
 
         public string UserId { get; set; }
-        public virtual ApplicationUser User { get; set; }
+        public virtual ApplicationUser? User { get; set; }
         public int ExerciseTypeId { get; set; }
         public virtual ExerciseType? ExerciseType { get; set; }
         public int WeatherId { get; set; }

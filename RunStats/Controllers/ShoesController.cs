@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RunStats.Data;
 using RunStats.Models;
 
@@ -67,8 +68,6 @@ namespace RunStats.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ShoesTypeId"] = new SelectList(_context.Set<ShoesType>(), "Id", "Id", shoes.ShoesTypeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", shoes.UserId);
             return View(shoes);
         }
 
@@ -85,8 +84,6 @@ namespace RunStats.Controllers
             {
                 return NotFound();
             }
-            ViewData["ShoesTypeId"] = new SelectList(_context.Set<ShoesType>(), "Id", "Id", shoes.ShoesTypeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", shoes.UserId);
             return View(shoes);
         }
 
@@ -122,8 +119,6 @@ namespace RunStats.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ShoesTypeId"] = new SelectList(_context.Set<ShoesType>(), "Id", "Id", shoes.ShoesTypeId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", shoes.UserId);
             return View(shoes);
         }
 

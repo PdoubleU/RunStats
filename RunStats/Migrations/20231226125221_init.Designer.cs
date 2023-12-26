@@ -12,7 +12,7 @@ using RunStats.Data;
 namespace RunStats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231226121638_init")]
+    [Migration("20231226125221_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -262,8 +262,8 @@ namespace RunStats.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("Distance")
-                        .HasColumnType("real");
+                    b.Property<int>("Distance")
+                        .HasColumnType("int");
 
                     b.Property<int>("ExerciseTypeId")
                         .HasColumnType("int");
@@ -271,8 +271,8 @@ namespace RunStats.Migrations
                     b.Property<int?>("ShoesId")
                         .HasColumnType("int");
 
-                    b.Property<float>("Time")
-                        .HasColumnType("real");
+                    b.Property<int>("Time")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -309,8 +309,8 @@ namespace RunStats.Migrations
                     b.Property<int>("ShoesTypeId")
                         .HasColumnType("int");
 
-                    b.Property<float>("TotalDistance")
-                        .HasColumnType("real");
+                    b.Property<int>("TotalDistance")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
