@@ -10,5 +10,9 @@ namespace RunStats.Data
             : base(options)
         {
         }
+        public DbSet<RunStats.Models.RunningSession>? RunningSession { get; set; }
+        public DbSet<RunStats.Models.Shoes>? Shoes { get; set; }
+        public DbSet<RunStats.Models.ExcerciseType>? ExcerciseType { get; set; }
+        public DbSet<RunStats.Models.ShoesType>? ShoesType { get; set; }
     }
 }
