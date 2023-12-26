@@ -12,8 +12,8 @@ using RunStats.Data;
 namespace RunStats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231226105037_foregin-keys")]
-    partial class foreginkeys
+    [Migration("20231226115151_fix-all")]
+    partial class fixall
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -234,6 +234,146 @@ namespace RunStats.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("RunStats.Models.ExcerciseType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("ExcerciseName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExcerciseType");
+                });
+
+            modelBuilder.Entity("RunStats.Models.RunningSession", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Distance")
+                        .HasColumnType("real");
+
+                    b.Property<int>("ExcerciseTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ShoesId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("Time")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("WeatherId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExcerciseTypeId");
+
+                    b.HasIndex("ShoesId");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("WeatherId");
+
+                    b.ToTable("RunningSession");
+                });
+
+            modelBuilder.Entity("RunStats.Models.Shoes", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Model")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ShoesTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("TotalDistance")
+                        .HasColumnType("real");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ShoesTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Shoes");
+                });
+
+            modelBuilder.Entity("RunStats.Models.ShoesType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShoesType");
+                });
+
+            modelBuilder.Entity("RunStats.Models.Weather", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Clouds")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Moisture")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Temperature")
+                        .HasColumnType("float");
+
+                    b.Property<int>("WindSpeed")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Weather");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -283,6 +423,58 @@ namespace RunStats.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RunStats.Models.RunningSession", b =>
+                {
+                    b.HasOne("RunStats.Models.ExcerciseType", "ExcerciseType")
+                        .WithMany()
+                        .HasForeignKey("ExcerciseTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RunStats.Models.Shoes", "Shoes")
+                        .WithMany()
+                        .HasForeignKey("ShoesId");
+
+                    b.HasOne("RunStats.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RunStats.Models.Weather", "Weather")
+                        .WithMany()
+                        .HasForeignKey("WeatherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ExcerciseType");
+
+                    b.Navigation("Shoes");
+
+                    b.Navigation("User");
+
+                    b.Navigation("Weather");
+                });
+
+            modelBuilder.Entity("RunStats.Models.Shoes", b =>
+                {
+                    b.HasOne("RunStats.Models.ShoesType", "ShoesType")
+                        .WithMany()
+                        .HasForeignKey("ShoesTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RunStats.Models.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ShoesType");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

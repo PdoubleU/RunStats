@@ -266,7 +266,7 @@ namespace RunStats.Migrations
                     b.Property<int>("ExcerciseTypeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShoesId")
+                    b.Property<int?>("ShoesId")
                         .HasColumnType("int");
 
                     b.Property<float>("Time")
@@ -433,9 +433,7 @@ namespace RunStats.Migrations
 
                     b.HasOne("RunStats.Models.Shoes", "Shoes")
                         .WithMany()
-                        .HasForeignKey("ShoesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ShoesId");
 
                     b.HasOne("RunStats.Models.ApplicationUser", "User")
                         .WithMany()

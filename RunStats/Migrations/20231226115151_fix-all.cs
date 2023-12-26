@@ -4,7 +4,7 @@
 
 namespace RunStats.Migrations
 {
-    public partial class foreginkeys : Migration
+    public partial class fixall : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

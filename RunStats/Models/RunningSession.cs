@@ -17,7 +17,7 @@ namespace RunStats.Models
         public virtual ExcerciseType? ExcerciseType { get; set; }
         public int WeatherId { get; set; }
         public virtual Weather? Weather { get; set; }
-        public int ShoesId { get; set; }
+        public int? ShoesId { get; set; }
         public virtual Shoes? Shoes { get; set; }
     }
 }
