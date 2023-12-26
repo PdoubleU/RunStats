@@ -61,7 +61,7 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExcerciseTypeId,WheatherId,ShoesId")] RunningSession runningSession)
+        public async Task<IActionResult> Create([Bind("Id,Date,Distance,Time,UserId,ExcerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
         {
             if (ModelState.IsValid)
             {
@@ -99,7 +99,7 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Distance,Time,UserId,ExcerciseTypeId,WheatherId,ShoesId")] RunningSession runningSession)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,Distance,Time,UserId,ExcerciseTypeId,WeatherId,ShoesId")] RunningSession runningSession)
         {
             if (id != runningSession.Id)
             {

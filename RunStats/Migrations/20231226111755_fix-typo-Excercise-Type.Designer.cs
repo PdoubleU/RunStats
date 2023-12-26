@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RunStats.Data;
 
@@ -11,9 +12,10 @@ using RunStats.Data;
 namespace RunStats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231226111755_fix-typo-Excercise-Type")]
+    partial class fixtypoExcerciseType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -276,7 +278,10 @@ namespace RunStats.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("WeatherId")
+                    b.Property<int?>("WeatherId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WheatherId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -445,9 +450,7 @@ namespace RunStats.Migrations
 
                     b.HasOne("RunStats.Models.Weather", "Weather")
                         .WithMany()
-                        .HasForeignKey("WeatherId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WeatherId");
 
                     b.Navigation("ExcerciseType");
 

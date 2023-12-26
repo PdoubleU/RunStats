@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace RunStats.Models
 {
@@ -14,9 +15,9 @@ namespace RunStats.Models
         public virtual ApplicationUser User { get; set; }
         public int ExcerciseTypeId { get; set; }
         public virtual ExcerciseType? ExcerciseType { get; set; }
-        public int WheatherId { get; set; }
+        public int WeatherId { get; set; }
         public virtual Weather? Weather { get; set; }
         public int ShoesId { get; set; }
-        public virtual Shoes Shoes { get; set; }
+        public virtual Shoes? Shoes { get; set; }
     }
 }
