@@ -46,7 +46,14 @@
                 @Html.DisplayFor(modelItem => item.Distance)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Time)
+                    @if (item.Time == null)
+                    {
+                        <text>Sesja trwa</text>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Time)
+                    }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.User.Id)

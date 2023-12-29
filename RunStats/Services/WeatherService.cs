@@ -14,7 +14,6 @@ namespace RunStats.Services
         public async Task<Weather?> GetWeatherAsync(string lat, string lng, DateTime targetDate)
         {
             var selectedDate = targetDate.ToString("yyyy-MM-dd");
-            var selectedHour = targetDate.ToString("HH");
             DateTime yesterday = DateTime.Now.AddDays(-1);
 
             var archiveWeatherURL = $"https://archive-api.open-meteo.com/v1/archive?latitude={lat}&longitude={lng}&start_date={selectedDate}&end_date={selectedDate}&hourly=temperature_2m,relative_humidity_2m,cloud_cover,wind_speed_10m&timezone=auto";

@@ -13,10 +13,14 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
+            <div class="form-group">
+                <label class="control-label"></label>
+                <input type="checkbox" id="autoStartSessionCheckbox" />
+            </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
+                <input asp-for="Date" class="form-control" id="dateInput" />
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -26,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Time" class="control-label"></label>
-                <input asp-for="Time" class="form-control" />
+                <input asp-for="Time" class="form-control" id="timeInput" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -75,4 +79,15 @@
         latitudeInput.value = position.coords.latitude;
         longitudeInput.value = position.coords.longitude;
     };
+
+    document.getElementById('autoStartSessionCheckbox').addEventListener('change', function () {
+        var dateInput = document.getElementById('dateInput');
+        var timeInput = document.getElementById('timeInput');
+        console.log(dateInput.value);
+        dateInput.disabled = timeInput.disabled = this.checked; // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
+        if (this.checked) {
+            dateInput.value = new Date().toISOString().slice(0, 16); // Ustaw datę na teraźniejszą, jeśli checkbox jest zaznaczony
+            timeInput.value = null // Ustaw czas na null, jeśli checkbox jest zaznaczony - czas sesji bedzie wyliczony przy jej zakonczeniu
+        }
+    });
 </script>

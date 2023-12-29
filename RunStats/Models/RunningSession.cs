@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.InteropServices;
 
 namespace RunStats.Models
 {
@@ -9,7 +10,7 @@ namespace RunStats.Models
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public int Distance { get; set; }
-        public int Time { get; set; }
+        public int? Time { get; set; }
 
         public string UserId { get; set; }
         public virtual ApplicationUser? User { get; set; }

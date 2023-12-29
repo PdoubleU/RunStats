@@ -40,8 +40,11 @@ namespace RunStats.Utils
         }
         public static HourlyData parseWeatherData(WeatherData weatherData, DateTime targetDateTime)
         {
-            
-            int index = weatherData.hourly.time.FindIndex(time => time == targetDateTime);
+            DateTime timeRoundedToNearestHour = RoundToNearestHour.round(targetDateTime);
+
+            Console.WriteLine(timeRoundedToNearestHour.ToString());
+
+            int index = weatherData.hourly.time.FindIndex(time => time == timeRoundedToNearestHour);
 
             if (index == -1)
             {
