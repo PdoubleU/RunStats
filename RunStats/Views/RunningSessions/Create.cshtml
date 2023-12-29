@@ -83,8 +83,7 @@
     document.getElementById('autoStartSessionCheckbox').addEventListener('change', function () {
         var dateInput = document.getElementById('dateInput');
         var timeInput = document.getElementById('timeInput');
-        console.log(dateInput.value);
-        dateInput.disabled = timeInput.disabled = this.checked; // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
+        //dateInput.disabled = timeInput.disabled = this.checked;  // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
         if (this.checked) {
             dateInput.value = new Date().toISOString().slice(0, 16); // Ustaw datę na teraźniejszą, jeśli checkbox jest zaznaczony
             timeInput.value = null // Ustaw czas na null, jeśli checkbox jest zaznaczony - czas sesji bedzie wyliczony przy jej zakonczeniu
