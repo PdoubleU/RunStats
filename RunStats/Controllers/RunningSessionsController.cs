@@ -70,7 +70,7 @@ namespace RunStats.Controllers
                 // load weather data from remote API and store it in DB
                 WeatherService weatherService = new WeatherService();
 
-                Weather? currentWeather = await weatherService.GetWeatherAsync(latitude, longitude);
+                Weather? currentWeather = await weatherService.GetWeatherAsync(latitude, longitude, runningSession.Date);
 
                  _context.Add(currentWeather);
                 await _context.SaveChangesAsync();
