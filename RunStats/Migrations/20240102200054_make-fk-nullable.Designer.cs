@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RunStats.Data;
 
@@ -11,9 +12,10 @@ using RunStats.Data;
 namespace RunStats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240102200054_make-fk-nullable")]
+    partial class makefknullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -427,13 +429,11 @@ namespace RunStats.Migrations
                 {
                     b.HasOne("RunStats.Models.ExerciseType", "ExerciseType")
                         .WithMany()
-                        .HasForeignKey("ExerciseTypeId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("ExerciseTypeId");
 
                     b.HasOne("RunStats.Models.Shoes", "Shoes")
                         .WithMany()
-                        .HasForeignKey("ShoesId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("ShoesId");
 
                     b.HasOne("RunStats.Models.ApplicationUser", "User")
                         .WithMany()
@@ -443,8 +443,7 @@ namespace RunStats.Migrations
 
                     b.HasOne("RunStats.Models.Weather", "Weather")
                         .WithMany()
-                        .HasForeignKey("WeatherId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("WeatherId");
 
                     b.Navigation("ExerciseType");
 
@@ -459,8 +458,7 @@ namespace RunStats.Migrations
                 {
                     b.HasOne("RunStats.Models.ShoesType", "ShoesType")
                         .WithMany()
-                        .HasForeignKey("ShoesTypeId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .HasForeignKey("ShoesTypeId");
 
                     b.HasOne("RunStats.Models.ApplicationUser", "User")
                         .WithMany()

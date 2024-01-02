@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RunStats.Data;
 
@@ -11,9 +12,10 @@ using RunStats.Data;
 namespace RunStats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240102210642_update-dbcontext-vol2")]
+    partial class updatedbcontextvol2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -432,8 +434,7 @@ namespace RunStats.Migrations
 
                     b.HasOne("RunStats.Models.Shoes", "Shoes")
                         .WithMany()
-                        .HasForeignKey("ShoesId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("ShoesId");
 
                     b.HasOne("RunStats.Models.ApplicationUser", "User")
                         .WithMany()

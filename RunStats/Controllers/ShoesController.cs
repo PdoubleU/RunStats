@@ -152,6 +152,19 @@ namespace RunStats.Controllers
                 return Problem("Entity set 'ApplicationDbContext.Shoes'  is null.");
             }
             var shoes = await _context.Shoes.FindAsync(id);
+            var sessions = from s in _context.RunningSession
+                           where s.ShoesId == shoes.Id 
+                           select s;
+            if (sessions.Any())
+            {
+                foreach (var session in sessions)
+                {
+                    session.ShoesId = null;
+
+                }
+            }
+            await _context.SaveChangesAsync();
+
             if (shoes != null)
             {
                 _context.Shoes.Remove(shoes);
