@@ -12,9 +12,9 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" submitdisabledcontrols="true" runat="server">
             <div class="form-group">
-                <label class="control-label"></label>
+                <label class="control-label">Zacznij automatyczne odliczanie czasu</label>
                 <input type="checkbox" id="autoStartSessionCheckbox" />
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -83,7 +83,7 @@
     document.getElementById('autoStartSessionCheckbox').addEventListener('change', function () {
         var dateInput = document.getElementById('dateInput');
         var timeInput = document.getElementById('timeInput');
-        //dateInput.disabled = timeInput.disabled = this.checked;  // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
+        dateInput.readOnly = timeInput.readOnly = this.checked;  // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
         if (this.checked) {
             dateInput.value = new Date().toISOString().slice(0, 16); // Ustaw datę na teraźniejszą, jeśli checkbox jest zaznaczony
             timeInput.value = null // Ustaw czas na null, jeśli checkbox jest zaznaczony - czas sesji bedzie wyliczony przy jej zakonczeniu

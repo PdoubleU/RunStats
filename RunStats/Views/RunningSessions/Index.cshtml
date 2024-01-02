@@ -68,7 +68,10 @@
                 @Html.DisplayFor(modelItem => item.Shoes.Model)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                @if (item.Time == null)
+                {
+                <a asp-action="Edit" asp-route-id="@item.Id">Stop session</a>
+                }
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
