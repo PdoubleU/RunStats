@@ -47,7 +47,7 @@ namespace RunStats.Services
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine($"Wystąpił błąd HTTP: {ex.Message}");
+                Console.WriteLine($"HTTP Error: {ex.Message}");
                 return null;
             }
         }

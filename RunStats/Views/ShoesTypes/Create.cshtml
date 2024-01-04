@@ -17,6 +17,10 @@
                 <input asp-for="TypeName" class="form-control" />
                 <span asp-validation-for="TypeName" class="text-danger"></span>
             </div>
+            <div class="form-group" style="visibility: hidden;">
+                <label asp-for="UserId" class="control-label"></label>
+                <input asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId" value="@(ViewBag.UserId)">
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

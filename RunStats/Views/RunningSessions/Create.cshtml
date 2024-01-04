@@ -33,9 +33,9 @@
                 <input asp-for="Time" class="form-control" id="timeInput" />
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="visibility: hidden;">
                 <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                <input asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId" value="@(ViewBag.UserId)">/>
             </div>
             <div class="form-group">
                 <label asp-for="ExerciseTypeId" class="control-label"></label>

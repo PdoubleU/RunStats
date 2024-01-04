@@ -6,6 +6,7 @@ namespace RunStats.Models
     {
         [Key]
         public int Id { get; set; }
+        public string UserId { get; set; }
         public string TypeName { get; set; }
     }
 }

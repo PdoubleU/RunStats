@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RunStats.Data;
 
@@ -11,9 +12,10 @@ using RunStats.Data;
 namespace RunStats.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240104075557_add-user-id-to-models")]
+    partial class adduseridtomodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,7 +252,7 @@ namespace RunStats.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExerciseType", (string)null);
+                    b.ToTable("ExerciseType");
                 });
 
             modelBuilder.Entity("RunStats.Models.RunningSession", b =>
@@ -293,7 +295,7 @@ namespace RunStats.Migrations
 
                     b.HasIndex("WeatherId");
 
-                    b.ToTable("RunningSession", (string)null);
+                    b.ToTable("RunningSession");
                 });
 
             modelBuilder.Entity("RunStats.Models.Shoes", b =>
@@ -324,7 +326,7 @@ namespace RunStats.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Shoes", (string)null);
+                    b.ToTable("Shoes");
                 });
 
             modelBuilder.Entity("RunStats.Models.ShoesType", b =>
@@ -345,7 +347,7 @@ namespace RunStats.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShoesType", (string)null);
+                    b.ToTable("ShoesType");
                 });
 
             modelBuilder.Entity("RunStats.Models.Weather", b =>
@@ -377,7 +379,7 @@ namespace RunStats.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Weather", (string)null);
+                    b.ToTable("Weather");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

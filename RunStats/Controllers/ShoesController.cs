@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,25 +13,32 @@ using RunStats.Models;
 
 namespace RunStats.Controllers
 {
+    [Authorize]
     public class ShoesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ShoesController(ApplicationDbContext context)
+        public ShoesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Shoes
         public async Task<IActionResult> Index()
         {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             var applicationDbContext = _context.Shoes.Include(s => s.ShoesType).Include(s => s.User);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await applicationDbContext.Where(s => s.UserId == user.Id).ToListAsync());
         }
 
         // GET: Shoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             if (id == null || _context.Shoes == null)
             {
                 return NotFound();
@@ -38,6 +47,7 @@ namespace RunStats.Controllers
             var shoes = await _context.Shoes
                 .Include(s => s.ShoesType)
                 .Include(s => s.User)
+                .Where(s => s.UserId == user.Id)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (shoes == null)
             {
@@ -48,10 +58,13 @@ namespace RunStats.Controllers
         }
 
         // GET: Shoes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["ShoesTypeId"] = new SelectList(_context.Set<ShoesType>(), "Id", "Id");
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            ViewData["UserId"] = user.Id;
+            ViewData["ShoesTypeId"] = new SelectList(_context.Set<ShoesType>().Where(s => s.UserId == user.Id), "Id", "Id");
+
             return View();
         }
 
@@ -74,13 +87,15 @@ namespace RunStats.Controllers
         // GET: Shoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+            
             if (id == null || _context.Shoes == null)
             {
                 return NotFound();
             }
 
             var shoes = await _context.Shoes.FindAsync(id);
-            if (shoes == null)
+            if (shoes == null || shoes.UserId != user.Id)
             {
                 return NotFound();
             }

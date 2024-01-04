@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,20 +12,25 @@ using RunStats.Models;
 
 namespace RunStats.Controllers
 {
+    [Authorize]
     public class ExerciseTypesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ExerciseTypesController(ApplicationDbContext context)
+        public ExerciseTypesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: ExerciseTypes
         public async Task<IActionResult> Index()
         {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             return _context.ExerciseType != null ?
-                        View(await _context.ExerciseType.ToListAsync()) :
+                        View(await _context.ExerciseType.Where(e => e.UserId == user.Id).ToListAsync()) :
                         Problem("Entity set 'ApplicationDbContext.ExerciseType'  is null.");
         }
 
@@ -46,8 +53,12 @@ namespace RunStats.Controllers
         }
 
         // GET: ExerciseTypes/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            ViewData["UserId"] = user.Id;
+
             return View();
         }
 
@@ -56,8 +67,10 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ExerciseName")] ExerciseType ExerciseType)
+        public async Task<IActionResult> Create([Bind("Id,ExerciseName,UserId")] ExerciseType ExerciseType)
         {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             if (ModelState.IsValid)
             {
                 _context.Add(ExerciseType);

@@ -26,9 +26,9 @@
                 <label asp-for="ShoesTypeId" class="control-label"></label>
                 <select asp-for="ShoesTypeId" class ="form-control" asp-items="ViewBag.ShoesTypeId"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="visibility: hidden;">
                 <label asp-for="UserId" class="control-label"></label>
-                <select asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId"></select>
+                <input asp-for="UserId" class="form-control" asp-items="ViewBag.UserId" value="@(ViewBag.UserId)">
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

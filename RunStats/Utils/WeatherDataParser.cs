@@ -42,13 +42,20 @@ namespace RunStats.Utils
         {
             DateTime timeRoundedToNearestHour = RoundToNearestHour.round(targetDateTime);
 
-            Console.WriteLine(timeRoundedToNearestHour.ToString());
-
             int index = weatherData.hourly.time.FindIndex(time => time == timeRoundedToNearestHour);
 
             if (index == -1)
             {
-                throw new ArgumentException("Brak danych dla podanej godziny.");
+                // if API does not include data for the selected time, just return some fake data
+                // TODO - this is bad design, but works for now
+                Console.WriteLine("No data for provided time");
+                return new HourlyData
+                {
+                    Temperature = 0,
+                    Moisture = 0,
+                    Clouds = 0,
+                    WindSpeed = 0
+                };
             }
 
             HourlyData result = new HourlyData
