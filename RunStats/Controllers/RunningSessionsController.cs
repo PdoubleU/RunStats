@@ -85,6 +85,14 @@ namespace RunStats.Controllers
 
                 Weather? currentWeather = await weatherService.GetWeatherAsync(latitude, longitude, runningSession.Date);
 
+                Shoes sessionShoes = await _context.Shoes.FindAsync(runningSession.ShoesId);
+
+                if (sessionShoes != null)
+                {
+                    sessionShoes.TotalDistance += runningSession.Distance;
+                    await _context.SaveChangesAsync();
+                }
+
                  _context.Add(currentWeather);
                 await _context.SaveChangesAsync();
                 runningSession.WeatherId = currentWeather.Id;

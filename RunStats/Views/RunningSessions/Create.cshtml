@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" submitdisabledcontrols="true" runat="server">
+        <form asp-action="Create" submitdisabledcontrols="true" runat="server" onsubmit="calculateMilliseconds();">
             <div class="form-group">
                 <label class="control-label">Zacznij automatyczne odliczanie czasu</label>
                 <input type="checkbox" id="autoStartSessionCheckbox" />
@@ -25,15 +25,24 @@
             </div>
             <div class="form-group">
                 <label asp-for="Distance" class="control-label"></label>
-                <input asp-for="Distance" class="form-control" />
+                <input asp-for="Distance" class="form-control" min="0"/>
                 <span asp-validation-for="Distance" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Time" class="control-label"></label>
-                <input asp-for="Time" class="form-control" id="timeInput" />
+            <h6>Time</h6>
+            <div class="form-group" style="display:flex; flex-direction: row;">
+                <label for="hours" class="control-label">Hours:</label>
+                <input type="number" name="hours" id="hours" min="0" class="form-control" />
+
+                <label for="minutes" class="control-label">Minutes:</label>
+                <input type="number" name="minutes" id="minutes" min="0" max="60" class="form-control" />
+
+                <label for="seconds" class="control-label">Seconds:</label>
+                <input type="number" name="seconds" id="seconds" min="0" max="60" class="form-control"/>
+
+                <input asp-for="Time" class="form-control" id="timeInput" type="hidden"/>
                 <span asp-validation-for="Time" class="text-danger"></span>
             </div>
-            <div class="form-group" style="visibility: hidden;">
+            <div class="form-group" style="display: none;">
                 <label asp-for="UserId" class="control-label"></label>
                 <input asp-for="UserId" class ="form-control" asp-items="ViewBag.UserId" value="@(ViewBag.UserId)">/>
             </div>
@@ -45,8 +54,11 @@
                 <label asp-for="ShoesId" class="control-label"></label>
                 <select asp-for="ShoesId" class ="form-control" asp-items="ViewBag.ShoesId"></select>
             </div>
+            <h6>Coordinates:</h6>
             <div class="form-group">
+                <label class="control-label">Longitude</label>
                 <input name="longitude" class="form-control" id="longitude">
+                <label class="control-label">Latitude</label>
                 <input name="latitude" class="form-control" id="latitude"/>
             </div>
             <div class="form-group">
@@ -76,6 +88,7 @@
     function loadPosition(position) {
         const latitudeInput = document.getElementById("latitude");
         const longitudeInput = document.getElementById("longitude");
+        longitudeInput.readOnly = latitudeInput.readOnly = true;
         latitudeInput.value = position.coords.latitude;
         longitudeInput.value = position.coords.longitude;
     };
@@ -83,10 +96,27 @@
     document.getElementById('autoStartSessionCheckbox').addEventListener('change', function () {
         var dateInput = document.getElementById('dateInput');
         var timeInput = document.getElementById('timeInput');
-        dateInput.readOnly = timeInput.readOnly = this.checked;  // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
+        var hours = parseInt(document.getElementById('hours').value) || 0;
+        var minutes = parseInt(document.getElementById('minutes').value) || 0;
+        var seconds = parseInt(document.getElementById('seconds').value) || 0;
+        hours.readOnly = minutes.readOnly = seconds.readOnly = dateInput.readOnly = timeInput.readOnly = this.checked;  // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
         if (this.checked) {
             dateInput.value = new Date().toISOString().slice(0, 16); // Ustaw datę na teraźniejszą, jeśli checkbox jest zaznaczony
             timeInput.value = null // Ustaw czas na null, jeśli checkbox jest zaznaczony - czas sesji bedzie wyliczony przy jej zakonczeniu
         }
     });
+
+    function calculateMilliseconds() {
+        var hours = parseInt(document.getElementById('hours').value) || 0;
+        var minutes = parseInt(document.getElementById('minutes').value) || 0;
+        var seconds = parseInt(document.getElementById('seconds').value) || 0;
+
+        var totalMilliseconds = (hours * 3600 + minutes * 60 + seconds) * 1000;
+
+        // Ustawienie wartości w ukrytym polu formularza
+        document.getElementById('timeInput').value = totalMilliseconds;
+
+        // Zwrócenie true, aby kontynuować wysyłanie formularza
+        return true;
+    }
 </script>
