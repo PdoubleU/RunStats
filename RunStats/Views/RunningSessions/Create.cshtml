@@ -28,13 +28,13 @@
             <h6>Duration</h6>
             <div class="form-group" style="display:flex; flex-direction: row;">
                 <label for="hours" class="control-label">Hours:</label>
-                <input type="number" name="hours" id="hours" min="0" class="form-control" />
+                <input type="number" name="hours" id="hours" min="0" class="form-control" required/>
 
                 <label for="minutes" class="control-label">Minutes:</label>
-                <input type="number" name="minutes" id="minutes" min="0" max="60" class="form-control" />
+                <input type="number" name="minutes" id="minutes" min="0" max="60" class="form-control" required/>
 
                 <label for="seconds" class="control-label">Seconds:</label>
-                <input type="number" name="seconds" id="seconds" min="0" max="60" class="form-control"/>
+                <input type="number" name="seconds" id="seconds" min="0" max="60" class="form-control" required/>
 
                 <input asp-for="Time" class="form-control" id="timeInput" type="hidden"/>
                 <span asp-validation-for="Time" class="text-danger"></span>
@@ -107,21 +107,32 @@
     document.getElementById('autoStartSessionCheckbox').addEventListener('change', function () {
         var dateInput = document.getElementById('dateInput');
         var timeInput = document.getElementById('timeInput');
-        var hours = parseInt(document.getElementById('hours').value) || 0;
-        var minutes = parseInt(document.getElementById('minutes').value) || 0;
-        var seconds = parseInt(document.getElementById('seconds').value) || 0;
         hours.readOnly = minutes.readOnly = seconds.readOnly = dateInput.readOnly = timeInput.readOnly = this.checked;  // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
         if (this.checked) {
             const nowString = getDateNowInISOStringFormat();
             dateInput.value = nowString; // Ustaw datę na teraźniejszą, jeśli checkbox jest zaznaczony
-            timeInput.value = null // Ustaw czas na null, jeśli checkbox jest zaznaczony - czas sesji bedzie wyliczony przy jej zakonczeniu
+            timeInput.disabled = true // zablokuj wysylke pola, baza dostanie nulla i będzie wszystko gites
+            // jeśli czas sesji bedzie liczony automatycznie, nie wymagaj podawania czasu
+            document.getElementById('hours').required = false;
+            document.getElementById('minutes').required = false;
+            document.getElementById('seconds').required = false;
+        }
+        else {
+            // odblokuj pole
+            timeInput.disabled = false;
+            // resetuj pole daty, musi zostac dodane recznie przez uzytkownika
+            dateInput.value = null;
+            // wymagaj podania trwania treningu, zeby uniemozliwic wysylke formularza
+            document.getElementById('hours').required = true;
+            document.getElementById('minutes').required = true;
+            document.getElementById('seconds').required = true;
         }
     });
 
     function calculateMilliseconds() {
         var timeInput = document.getElementById('timeInput');
-        // jesli pole zostalo wczesniej zablokowane i wypelnione null, przerwij:
-        if (!timeInput.value) return true;
+        // jesli pole zostalo wczesniej zablokowane, przerwij:
+        if (timeInput.disabled) return true;
         // wyliczenie i ustawienie wartości milisekund w ukrytym polu formularza
         var hours = parseInt(document.getElementById('hours').value) || 0;
         var minutes = parseInt(document.getElementById('minutes').value) || 0;
