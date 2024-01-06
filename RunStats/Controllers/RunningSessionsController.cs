@@ -35,6 +35,16 @@ namespace RunStats.Controllers
             return View(await currentUserSessions.ToListAsync());
         }
 
+        // GET: RunningSessions/Stats
+        public async Task<IActionResult> Stats()
+        {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var allSessions = _context.RunningSession.Include(r => r.ExerciseType).Include(r => r.Shoes).Include(r => r.User).Include(r => r.Weather);
+            var currentUserSessions = allSessions.Where(e => e.UserId == user.Id);
+            return View(await currentUserSessions.ToListAsync());
+        }
+
         // GET: RunningSessions/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -50,6 +60,7 @@ namespace RunStats.Controllers
                 .Include(r => r.Shoes)
                 .Include(r => r.User)
                 .Where(r => r.UserId == user.Id)
+                .Include(r => r.Weather)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (runningSession == null)
             {

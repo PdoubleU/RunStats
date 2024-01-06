@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<RunStats.Models.RunningSession>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Stats";
 }
 
-<h1>Index</h1>
+<h1>Stats</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -16,10 +16,10 @@
                 @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Distance) (km)
+                @Html.DisplayNameFor(model => model.Distance) (meters)
             </th>
             <th>
-                Duration
+                @Html.DisplayNameFor(model => model.Time)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ExerciseType.ExerciseName)

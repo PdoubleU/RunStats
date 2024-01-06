@@ -14,7 +14,7 @@
     <div class="col-md-4">
         <form asp-action="Create" submitdisabledcontrols="true" runat="server" onsubmit="calculateMilliseconds();">
             <div class="form-group">
-                <label class="control-label">Zacznij automatyczne odliczanie czasu</label>
+                <label class="control-label">Start timer</label>
                 <input type="checkbox" id="autoStartSessionCheckbox" />
             </div>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -24,11 +24,11 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Distance" class="control-label"></label>
+                <label class="control-label">Distance (km)</label>
                 <input asp-for="Distance" class="form-control" min="0"/>
                 <span asp-validation-for="Distance" class="text-danger"></span>
             </div>
-            <h6>Time</h6>
+            <h6>Duration</h6>
             <div class="form-group" style="display:flex; flex-direction: row;">
                 <label for="hours" class="control-label">Hours:</label>
                 <input type="number" name="hours" id="hours" min="0" class="form-control" />
@@ -93,6 +93,20 @@
         longitudeInput.value = position.coords.longitude;
     };
 
+    function getDateNowInISOStringFormat() {
+        const currentDate = new Date();
+        // Dodanie zero przed miesiącem i dniem, jeśli są jednocyfrowe
+        const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+        const day = currentDate.getDate().toString().padStart(2, '0');
+        // Pobranie godziny, minut i sekund w formacie dwucyfrowym
+        const hours = currentDate.getHours().toString().padStart(2, '0');
+        const minutes = currentDate.getMinutes().toString().padStart(2, '0');
+        // Utworzenie pełnej daty w formacie ISO
+        const isoDateString = `${currentDate.getFullYear()}-${month}-${day}T${hours}:${minutes}`;
+
+        return isoDateString;
+    }
+
     document.getElementById('autoStartSessionCheckbox').addEventListener('change', function () {
         var dateInput = document.getElementById('dateInput');
         var timeInput = document.getElementById('timeInput');
@@ -101,21 +115,22 @@
         var seconds = parseInt(document.getElementById('seconds').value) || 0;
         hours.readOnly = minutes.readOnly = seconds.readOnly = dateInput.readOnly = timeInput.readOnly = this.checked;  // Zablokuj pola daty i czasu, jeśli checkbox jest zaznaczony
         if (this.checked) {
-            dateInput.value = new Date().toISOString().slice(0, 16); // Ustaw datę na teraźniejszą, jeśli checkbox jest zaznaczony
+            const nowString = getDateNowInISOStringFormat();
+            dateInput.value = nowString; // Ustaw datę na teraźniejszą, jeśli checkbox jest zaznaczony
             timeInput.value = null // Ustaw czas na null, jeśli checkbox jest zaznaczony - czas sesji bedzie wyliczony przy jej zakonczeniu
         }
     });
 
     function calculateMilliseconds() {
+        var timeInput = document.getElementById('timeInput');
+        // jesli pole zostalo wczesniej zablokowane i wypelnione null, przerwij:
+        if (!timeInput.value) return true;
+        // wyliczenie i ustawienie wartości milisekund w ukrytym polu formularza
         var hours = parseInt(document.getElementById('hours').value) || 0;
         var minutes = parseInt(document.getElementById('minutes').value) || 0;
         var seconds = parseInt(document.getElementById('seconds').value) || 0;
-
         var totalMilliseconds = (hours * 3600 + minutes * 60 + seconds) * 1000;
-
-        // Ustawienie wartości w ukrytym polu formularza
-        document.getElementById('timeInput').value = totalMilliseconds;
-
+        timeInput.value = totalMilliseconds;
         // Zwrócenie true, aby kontynuować wysyłanie formularza
         return true;
     }
