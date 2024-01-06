@@ -2,7 +2,59 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-left">
+    <h1 class="display-4">O aplikacji</h1>
 </div>
+
+<div class="text-left mt-4">
+    <h4>Opis dostępnych ekranów:</h4>
+    <ol>
+        <li>
+            <h4>Logowanie (Login):</h4>
+            <ul>
+                <li>Aby korzystać z aplikacji, musisz być zalogowany.</li>
+                <li>Po zarejestrowaniu potwierdź rejestrację, klikając w przesłany link. W przeciwnym razie konto nie będzie potwierdzone. W przypadku niepowodzenia potwierdzenia rozważ utworzenie nowego konta i ponowne potwierdzenie.</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Statystyki (Stats)</h4>
+            <ul>
+                <li>Wyświetla dane treningowe zalogowanego użytkownika.</li>
+                <li>Pokazuje najdłuższy bieg.</li>
+                <li>Podkreśla najlepsze tempo.</li>
+                <li>Podaje najlepsze czasy dla biegów 2 km, 5 km, 10 km, 20 km, itp.</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Typy Treningów (Exercise types)</h4>
+            <ul>
+                <li>Użytkownicy mogą definiować własne typy treningów (np. maraton, 10 km, itp.).</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Sesje Biegowe (Running sessions)</h4>
+            <ul>
+                <li>Dodawanie sesji treningowej.</li>
+                <li>Czas trwania sesji można wprowadzić ręcznie lub automatycznie, zaznaczając "Rozpocznij sesję". Użytkownicy mogą zatrzymać sesję, wybierając "Zatrzymaj sesję", gdzie będzie możliwość zatrzymania odliczania.</li>
+                <li>Każda sesja pobiera dane pogodowe i wymaga podania danych lokalizacyjnych. Dane lokalizacyjne są pobierane automatycznie (upewnij się, że aplikacja ma dostęp do usługi lokalizacyjnej przeglądarki).</li>
+                <li>Uwaga: Niektóre przeglądarki mogą nie obsługiwać usług lokalizacyjnych lub mogą mieć je wyłączone w ustawieniach. W takich przypadkach dane lokalizacyjne dla Warszawy zostaną załadowane automatycznie.</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Typy Butów (Shoe types)</h4>
+            <ul>
+                <li>Użytkownicy mogą dodawać typy butów (np. górskie, miejskie, na bieżnię).</li>
+            </ul>
+        </li>
+        <li>
+            <h4>Buty (Shoes)</h4>
+            <ul>
+                <li>Użytkownicy mogą dodawać swoje buty do biegania z wybranym typem.</li>
+                <li>Zbierane są informacje o pokonanym dystansie w danej parze butów (każda nowa sesja treningowa zwiększa wartość dystansu w wybranej parze obuwia).</li>
+            </ul>
+        </li>
+    </ol>
+    <h4>Uwagi</h4>
+    <p>Aplikacja testowana w przeglądarkach Firefox (v 111) /Chrome (v120) - wersje webowe.</p>
+</div>
+

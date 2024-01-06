@@ -40,9 +40,53 @@ namespace RunStats.Controllers
         {
             ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            var allSessions = _context.RunningSession.Include(r => r.ExerciseType).Include(r => r.Shoes).Include(r => r.User).Include(r => r.Weather);
-            var currentUserSessions = allSessions.Where(e => e.UserId == user.Id);
-            return View(await currentUserSessions.ToListAsync());
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Pobierz wszystkie biegi użytkownika
+            var runningSessions = await _context.RunningSession
+                .Include(r => r.ExerciseType)
+                .Include(r => r.Shoes)
+                .Include(r => r.Weather)
+                .Include(r => r.User)
+                .Where(r => r.UserId == user.Id)
+                .ToListAsync();
+
+            if (runningSessions == null || runningSessions.Count == 0)
+            {
+                ViewData["NoDataMessage"] = "Brak danych do wyświetlenia.";
+                return View();
+            }
+
+            // Znajdź najdłuższy bieg
+            var longestRun = runningSessions.OrderByDescending(r => r.Distance).FirstOrDefault();
+
+            // Znajdź najlepsze tempo
+            var bestPaceSession = runningSessions
+                .Where(r => r.Time.HasValue) // Ignoruj rekordy, w których Time = null
+                .OrderBy(r => r.Time / r.Distance) // Oblicz tempo i sortuj
+                .FirstOrDefault();
+
+            // Znajdź sesję z największym dystansem w różnych kategoriach
+            var topSessionUpTo2Km = runningSessions.Where(r => r.Distance <= 2).OrderByDescending(r => r.Time).LastOrDefault();
+            var topSessionUpTo5Km = runningSessions.Where(r => r.Distance > 2 && r.Distance <= 5).OrderByDescending(r => r.Time).LastOrDefault();
+            var topSessionUpTo10Km = runningSessions.Where(r => r.Distance > 5 && r.Distance <= 10).OrderByDescending(r => r.Time).LastOrDefault();
+            var topSessionUpTo20Km = runningSessions.Where(r => r.Distance > 10 && r.Distance <= 20).OrderByDescending(r => r.Time).LastOrDefault();
+            var topSessionAbove20Km = runningSessions.Where(r => r.Distance > 20).OrderByDescending(r => r.Time).LastOrDefault();
+
+            // Przekazanie danych do widoku
+            ViewData["LongestRun"] = longestRun;
+            // todo: 
+            ViewData["BestPace"] = bestPaceSession;
+            ViewData["TopSessionUpTo2Km"] = topSessionUpTo2Km;
+            ViewData["TopSessionUpTo5Km"] = topSessionUpTo5Km;
+            ViewData["TopSessionUpTo10Km"] = topSessionUpTo10Km;
+            ViewData["TopSessionUpTo20Km"] = topSessionUpTo20Km;
+            ViewData["TopSessionAbove20Km"] = topSessionAbove20Km;
+
+            return View();
         }
 
         // GET: RunningSessions/Details/5

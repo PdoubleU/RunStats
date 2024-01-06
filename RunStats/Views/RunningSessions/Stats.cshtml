@@ -4,83 +4,399 @@
     ViewData["Title"] = "Stats";
 }
 
-<h1>Stats</h1>
+<h2>Running Stats</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<h4>Longest run</h4>
+@if (ViewBag.LongestRun != null)
+{
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                Date
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Distance) (meters)
+                Distance (km)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Time)
+                Duration
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExerciseType.ExerciseName)
+                Exercise name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Weather.Location)
+                Location
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Shoes.Model)
+                Shoes model
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Distance)
-            </td>
-            <td>
-                    @if (item.Time == null)
-                    {
-                        <text>Sesja trwa</text>
-                    }
-                    else
-                    {
-                        <p class="timeItem">@(item.Time)</p>
-                    }
-
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ExerciseType.ExerciseName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Weather.Location)
-             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Shoes.Model)
-            </td>
-            <td>
-                @if (item.Time == null)
-                {
-                <a asp-action="Edit" asp-route-id="@item.Id">Stop session</a>
-                }
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+            <tr>
+                <td>
+                @(ViewBag.LongestRun.Date)
+                </td>
+                <td>
+                @(ViewBag.LongestRun.Distance)
+                </td>
+                <td class="time">
+                @(ViewBag.LongestRun.Time)
+                </td>
+                <td>
+                @(ViewBag.LongestRun.ExerciseType.ExerciseName)
+                </td>
+                <td>
+                @(ViewBag.LongestRun.Weather.Location)
+                </td>
+                <td>
+                @(ViewBag.LongestRun.Shoes.Model)
+                </td>
+            </tr>
     </tbody>
 </table>
+}
+else
+{
+    <p>No session within this range</p>
+}
+<h4>Best pace</h4>
+@if (ViewBag.BestPace != null)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Distance (km)
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>
+                    Exercise name
+                </th>
+                <th>
+                    Location
+                </th>
+                <th>
+                    Shoes model
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @(ViewBag.BestPace.Date)
+                </td>
+                <td>
+                    @(ViewBag.BestPace.Distance)
+                </td>
+                <td class="time">
+                    @(ViewBag.BestPace.Time)
+                </td>
+                <td>
+                    @(ViewBag.BestPace.ExerciseType.ExerciseName)
+                </td>
+                <td>
+                    @(ViewBag.BestPace.Weather.Location)
+                </td>
+                <td>
+                    @(ViewBag.BestPace.Shoes.Model)
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+<h4>Fastest sessions (group by distance)</h4>
+<h5>Up to 2 km</h5>
+@if (ViewBag.TopSessionUpTo2Km != null)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Distance (km)
+            </th>
+            <th>
+                Duration
+            </th>
+            <th>
+                Exercise name
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Shoes model
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @(ViewBag.TopSessionUpTo2Km.Date)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo2Km.Distance)
+            </td>
+            <td class="time">
+                @(ViewBag.TopSessionUpTo2Km.Time)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo2Km.ExerciseType.ExerciseName)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo2Km.Weather.Location)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo2Km.Shoes.Model)
+            </td>
+        </tr>
+    </tbody>
+</table>
+}
+else
+{
+    <p>No session within this range</p>
+}
+<h5>Up to 5 km</h5>
+@if (ViewBag.TopSessionUpTo5Km != null)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Distance (km)
+            </th>
+            <th>
+                Duration
+            </th>
+            <th>
+                Exercise name
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Shoes model
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @(ViewBag.TopSessionUpTo5Km.Date)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo5Km.Distance)
+            </td>
+                <td class="time">
+                @(ViewBag.TopSessionUpTo5Km.Time)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo5Km.ExerciseType.ExerciseName)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo5Km.Weather.Location)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo5Km.Shoes.Model)
+            </td>
+        </tr>
+    </tbody>
+</table>
+}
+else
+{
+    <p>No session within this range</p>
+}
+<h5>Up to 10 km</h5>
+@if (ViewBag.TopSessionUpTo10Km != null)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Distance (km)
+            </th>
+            <th>
+                Duration
+            </th>
+            <th>
+                Exercise name
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Shoes model
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @(ViewBag.TopSessionUpTo10Km.Date)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo10Km.Distance)
+            </td>
+            <td class="time">
+                @(ViewBag.TopSessionUpTo10Km.Time)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo10Km.ExerciseType.ExerciseName)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo10Km.Weather.Location)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo10Km.Shoes.Model)
+            </td>
+        </tr>
+    </tbody>
+</table>
+}
+else
+{
+    <p>No session within this range</p>
+}
+<h5>Up to 20 km</h5>
+@if (ViewBag.TopSessionUpTo20Km != null)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Distance (km)
+            </th>
+            <th>
+                Duration
+            </th>
+            <th>
+                Exercise name
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Shoes model
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @(ViewBag.TopSessionUpTo20Km.Date)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo20Km.Distance)
+            </td>
+            <td class="time">
+                @(ViewBag.TopSessionUpTo20Km.Time)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo20Km.ExerciseType.ExerciseName)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo20Km.Weather.Location)
+            </td>
+            <td>
+                @(ViewBag.TopSessionUpTo20Km.Shoes.Model)
+            </td>
+        </tr>
+    </tbody>
+    </table>
+} else
+{
+    <p>No session within this range</p>
+}
+<h5>+ 20 km</h5>
+@if (ViewBag.TopSessionAbove20Km != null) 
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th>
+                Distance (km)
+            </th>
+            <th>
+                Duration
+            </th>
+            <th>
+                Exercise name
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Shoes model
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @(ViewBag.TopSessionAbove20Km.Date)
+            </td>
+            <td>
+                @(ViewBag.TopSessionAbove20Km.Distance)
+            </td>
+            <td class="time">
+                @(ViewBag.TopSessionAbove20Km.Time)
+            </td>
+            <td>
+                @(ViewBag.TopSessionAbove20Km.ExerciseType.ExerciseName)
+            </td>
+            <td>
+                @(ViewBag.TopSessionAbove20Km.Weather.Location)
+            </td>
+            <td>
+                @(ViewBag.TopSessionAbove20Km.Shoes.Model)
+            </td>
+        </tr>
+    </tbody>
+</table>
+}
+else
+{
+    <p>No session within this range</p>
+}
+
 
 <script type="text/javascript" defer>
     function convertMsToTime(ms) {
         return new Date(ms).toISOString().slice(11, 19);
     }
 
-    const sessionTimes = document.getElementsByClassName("timeItem");
+    const sessionTimes = document.getElementsByClassName("time");
+
+    console.log(sessionTimes);
 
     Array.from(sessionTimes).forEach(i => {
         const time = parseInt(i.textContent);
