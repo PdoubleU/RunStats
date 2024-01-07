@@ -61,16 +61,16 @@ namespace RunStats.Controllers
                 ViewData["NoDataMessage"] = "Brak danych do wyświetlenia.";
                 return View();
             }
-            var longestRun = runningSessions.OrderByDescending(r => r.Distance).FirstOrDefault();
+            var longestRun = runningSessions.Where(r => r.Time.HasValue).OrderByDescending(r => r.Distance).FirstOrDefault();
             var bestPaceSession = runningSessions
                 .Where(r => r.Time.HasValue)
                 .OrderBy(r => r.Time / r.Distance)
                 .FirstOrDefault();
-            var topSessionUpTo2Km = runningSessions.Where(r => r.Distance <= 2000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
-            var topSessionUpTo5Km = runningSessions.Where(r => r.Distance > 2000 && r.Distance <= 5000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
-            var topSessionUpTo10Km = runningSessions.Where(r => r.Distance > 5000 && r.Distance <= 10000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
-            var topSessionUpTo20Km = runningSessions.Where(r => r.Distance > 10000 && r.Distance <= 20000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
-            var topSessionAbove20Km = runningSessions.Where(r => r.Distance > 20000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo2Km = runningSessions.Where(r => r.Distance <= 2000 && r.Time.HasValue).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo5Km = runningSessions.Where(r => r.Distance > 2000 && r.Distance <= 5000 && r.Time.HasValue).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo10Km = runningSessions.Where(r => r.Distance > 5000 && r.Distance <= 10000 && r.Time.HasValue).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo20Km = runningSessions.Where(r => r.Distance > 10000 && r.Distance <= 20000 && r.Time.HasValue).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionAbove20Km = runningSessions.Where(r => r.Distance > 20000 && r.Time.HasValue).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
 
 
             if(bestPaceSession != null)
@@ -193,8 +193,17 @@ namespace RunStats.Controllers
             }
 
             var runningSession = await _context.RunningSession.FindAsync(id);
-            var shoesModel = await _context.Shoes.FindAsync(runningSession.ShoesId);
-            var exerciseType = await _context.ExerciseType.FindAsync(runningSession.ExerciseTypeId);
+
+            ExerciseType exerciseType = null;
+            if (runningSession.ExerciseTypeId != null)
+            {
+                exerciseType = await _context.ExerciseType.FindAsync(runningSession.ExerciseTypeId);
+            }
+            Shoes shoesModel = null;
+            if (shoesModel != null)
+            {
+                shoesModel = await _context.Shoes.FindAsync(runningSession.ShoesId);
+            }
 
             if (runningSession == null || runningSession.UserId != user.Id)
             {
