@@ -22,7 +22,7 @@
                 Duration
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExerciseType.ExerciseName)
+                Exercise Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Weather.Location)
@@ -30,7 +30,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Shoes.Model)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -40,7 +39,7 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Distance)
+               <p class="distance">@(item.Distance)</p>
             </td>
             <td>
                     @if (item.Time == null)

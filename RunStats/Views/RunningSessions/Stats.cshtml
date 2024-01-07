@@ -9,61 +9,6 @@
 <h4>Longest run</h4>
 @if (ViewBag.LongestRun != null)
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Date
-            </th>
-            <th>
-                Distance (km)
-            </th>
-            <th>
-                Duration
-            </th>
-            <th>
-                Exercise name
-            </th>
-            <th>
-                Location
-            </th>
-            <th>
-                Shoes model
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-            <tr>
-                <td>
-                @(ViewBag.LongestRun.Date)
-                </td>
-                <td>
-                @(ViewBag.LongestRun.Distance)
-                </td>
-                <td class="time">
-                @(ViewBag.LongestRun.Time)
-                </td>
-                <td>
-                @(ViewBag.LongestRun.ExerciseType.ExerciseName)
-                </td>
-                <td>
-                @(ViewBag.LongestRun.Weather.Location)
-                </td>
-                <td>
-                @(ViewBag.LongestRun.Shoes.Model)
-                </td>
-            </tr>
-    </tbody>
-</table>
-}
-else
-{
-    <p>No session within this range</p>
-}
-<h4>Best pace</h4>
-@if (ViewBag.BestPace != null)
-{
     <table class="table">
         <thead>
             <tr>
@@ -74,7 +19,7 @@ else
                     Distance (km)
                 </th>
                 <th>
-                    Duration
+                    Duration (hr:min:sec)
                 </th>
                 <th>
                     Exercise name
@@ -82,37 +27,94 @@ else
                 <th>
                     Location
                 </th>
-                <th>
-                    Shoes model
-                </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>
-                    @(ViewBag.BestPace.Date)
+                    @(ViewBag.LongestRun.Date)
                 </td>
-                <td>
-                    @(ViewBag.BestPace.Distance)
+                <td class="distance">
+                    @(ViewBag.LongestRun.Distance)
                 </td>
                 <td class="time">
-                    @(ViewBag.BestPace.Time)
+                    @(ViewBag.LongestRun.Time)
                 </td>
                 <td>
-                    @(ViewBag.BestPace.ExerciseType.ExerciseName)
+                    @if (ViewBag.LongestRun.ExerciseType != null)
+                    {
+                        <p>@(ViewBag.LongestRun.ExerciseType.ExerciseName)</p>
+                    }
+                    else
+                    {
+                        <p>Traning type was deleted</p>
+                    }
                 </td>
                 <td>
-                    @(ViewBag.BestPace.Weather.Location)
-                </td>
-                <td>
-                    @(ViewBag.BestPace.Shoes.Model)
+                    @(ViewBag.LongestRun.Weather.Location)
                 </td>
             </tr>
         </tbody>
     </table>
 }
-<h4>Fastest sessions (group by distance)</h4>
+else
+{
+    <p>No recorded sessions</p>
+}
+<h4>Best pace</h4>
+@if (ViewBag.BestPace != null)
+{
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Date
+            </th>
+            <th class="distance">
+                Distance (km)
+            </th>
+            <th>
+                Pace (min/km)
+            </th>
+            <th>
+                Exercise name
+            </th>
+            <th>
+                Location
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @(ViewBag.BestPace.Date)
+            </td>
+            <td class="distance">
+                @(ViewBag.BestPace.Distance)
+            </td>
+            <td class="pace">
+                @(ViewBag.BestPace.Pace)
+            </td>
+            <td>
+            @if (ViewBag.BestPace.ExerciseType != null)
+            {
+                <p>@(ViewBag.BestPace.ExerciseType.ExerciseName)</p>
+            }
+            else
+            {
+                <p>Traning type was deleted</p>
+            }
+            <td>
+                @(ViewBag.BestPace.Weather.Location)
+            </td>
+        </tr>
+    </tbody>
+</table>
+} else
+{
+   <p>No sessions</p>
+}
+<h4>Best pace (group by distance)</h4>
 <h5>Up to 2 km</h5>
 @if (ViewBag.TopSessionUpTo2Km != null)
 {
@@ -126,7 +128,7 @@ else
                 Distance (km)
             </th>
             <th>
-                Duration
+                Pace (min/km)
             </th>
             <th>
                 Exercise name
@@ -134,10 +136,6 @@ else
             <th>
                 Location
             </th>
-            <th>
-                Shoes model
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -145,20 +143,24 @@ else
             <td>
                 @(ViewBag.TopSessionUpTo2Km.Date)
             </td>
-            <td>
+            <td class="distance">
                 @(ViewBag.TopSessionUpTo2Km.Distance)
             </td>
-            <td class="time">
-                @(ViewBag.TopSessionUpTo2Km.Time)
+            <td class="pace">
+                @(ViewBag.TopSessionUpTo2Km.Pace)
             </td>
             <td>
-                @(ViewBag.TopSessionUpTo2Km.ExerciseType.ExerciseName)
+            @if (ViewBag.TopSessionUpTo2Km.ExerciseType != null)
+            {
+                <p>@(ViewBag.TopSessionUpTo2Km.ExerciseType.ExerciseName)</p>
+            }
+            else
+            {
+                <p>Traning type was deleted</p>
+            }
             </td>
             <td>
                 @(ViewBag.TopSessionUpTo2Km.Weather.Location)
-            </td>
-            <td>
-                @(ViewBag.TopSessionUpTo2Km.Shoes.Model)
             </td>
         </tr>
     </tbody>
@@ -181,7 +183,7 @@ else
                 Distance (km)
             </th>
             <th>
-                Duration
+                Pace (min/km)
             </th>
             <th>
                 Exercise name
@@ -189,10 +191,6 @@ else
             <th>
                 Location
             </th>
-            <th>
-                Shoes model
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -200,20 +198,24 @@ else
             <td>
                 @(ViewBag.TopSessionUpTo5Km.Date)
             </td>
-            <td>
+            <td class="distance">
                 @(ViewBag.TopSessionUpTo5Km.Distance)
             </td>
-                <td class="time">
-                @(ViewBag.TopSessionUpTo5Km.Time)
+                <td class="pace">
+                @(ViewBag.TopSessionUpTo5Km.Pace)
             </td>
             <td>
-                @(ViewBag.TopSessionUpTo5Km.ExerciseType.ExerciseName)
+            @if (ViewBag.TopSessionUpTo5Km.ExerciseType != null)
+            {
+                <p>@(ViewBag.TopSessionUpTo5Km.ExerciseType.ExerciseName)</p>
+            }
+            else
+            {
+                <p>Traning type was deleted</p>
+            }
             </td>
             <td>
                 @(ViewBag.TopSessionUpTo5Km.Weather.Location)
-            </td>
-            <td>
-                @(ViewBag.TopSessionUpTo5Km.Shoes.Model)
             </td>
         </tr>
     </tbody>
@@ -236,7 +238,7 @@ else
                 Distance (km)
             </th>
             <th>
-                Duration
+                Pace (min/km)
             </th>
             <th>
                 Exercise name
@@ -244,10 +246,6 @@ else
             <th>
                 Location
             </th>
-            <th>
-                Shoes model
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -255,20 +253,24 @@ else
             <td>
                 @(ViewBag.TopSessionUpTo10Km.Date)
             </td>
-            <td>
+            <td class="distance">
                 @(ViewBag.TopSessionUpTo10Km.Distance)
             </td>
-            <td class="time">
-                @(ViewBag.TopSessionUpTo10Km.Time)
+            <td class="pace">
+                @(ViewBag.TopSessionUpTo10Km.Pace)
             </td>
             <td>
-                @(ViewBag.TopSessionUpTo10Km.ExerciseType.ExerciseName)
+            @if (ViewBag.TopSessionUpTo10Km.ExerciseType != null)
+            {
+                <p>@(ViewBag.TopSessionUpTo10Km.ExerciseType.ExerciseName)</p>
+            }
+            else
+            {
+                <p>Traning type was deleted</p>
+            }
             </td>
             <td>
                 @(ViewBag.TopSessionUpTo10Km.Weather.Location)
-            </td>
-            <td>
-                @(ViewBag.TopSessionUpTo10Km.Shoes.Model)
             </td>
         </tr>
     </tbody>
@@ -291,7 +293,7 @@ else
                 Distance (km)
             </th>
             <th>
-                Duration
+                Pace (min/km)
             </th>
             <th>
                 Exercise name
@@ -299,10 +301,6 @@ else
             <th>
                 Location
             </th>
-            <th>
-                Shoes model
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -310,20 +308,24 @@ else
             <td>
                 @(ViewBag.TopSessionUpTo20Km.Date)
             </td>
-            <td>
+            <td class="distance">
                 @(ViewBag.TopSessionUpTo20Km.Distance)
             </td>
-            <td class="time">
-                @(ViewBag.TopSessionUpTo20Km.Time)
+            <td class="pace">
+                @(ViewBag.TopSessionUpTo20Km.Pace)
             </td>
             <td>
-                @(ViewBag.TopSessionUpTo20Km.ExerciseType.ExerciseName)
+            @if (ViewBag.TopSessionUpTo20Km.ExerciseType != null)
+            {
+                <p>@(ViewBag.TopSessionUpTo20Km.ExerciseType.ExerciseName)</p>
+            }
+            else
+            {
+                <p>Traning type was deleted</p>
+            }
             </td>
             <td>
                 @(ViewBag.TopSessionUpTo20Km.Weather.Location)
-            </td>
-            <td>
-                @(ViewBag.TopSessionUpTo20Km.Shoes.Model)
             </td>
         </tr>
     </tbody>
@@ -345,7 +347,7 @@ else
                 Distance (km)
             </th>
             <th>
-                Duration
+                Pace (min/km)
             </th>
             <th>
                 Exercise name
@@ -353,10 +355,6 @@ else
             <th>
                 Location
             </th>
-            <th>
-                Shoes model
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -364,20 +362,23 @@ else
             <td>
                 @(ViewBag.TopSessionAbove20Km.Date)
             </td>
-            <td>
+            <td class="distance">
                 @(ViewBag.TopSessionAbove20Km.Distance)
             </td>
-            <td class="time">
-                @(ViewBag.TopSessionAbove20Km.Time)
+            <td class="pace">
+                @(ViewBag.TopSessionAbove20Km.Pace)
             </td>
             <td>
-                @(ViewBag.TopSessionAbove20Km.ExerciseType.ExerciseName)
+            @if (ViewBag.TopSessionAbove20Km.ExerciseType != null)
+            {
+                <p>@(ViewBag.TopSessionAbove20Km.ExerciseType.ExerciseName)</p>
+            } else
+            {
+                <p>Traning type was deleted</p>
+            }
             </td>
             <td>
                 @(ViewBag.TopSessionAbove20Km.Weather.Location)
-            </td>
-            <td>
-                @(ViewBag.TopSessionAbove20Km.Shoes.Model)
             </td>
         </tr>
     </tbody>
@@ -388,15 +389,12 @@ else
     <p>No session within this range</p>
 }
 
-
 <script type="text/javascript" defer>
     function convertMsToTime(ms) {
         return new Date(ms).toISOString().slice(11, 19);
-    }
+    };
 
     const sessionTimes = document.getElementsByClassName("time");
-
-    console.log(sessionTimes);
 
     Array.from(sessionTimes).forEach(i => {
         const time = parseInt(i.textContent);
@@ -405,4 +403,17 @@ else
         i.textContent = convertedTime;
     });
 
+    function convertMetersToKilometers(meters) {
+        const kilometers = (meters / 1000).toFixed(3);
+        return `${kilometers} km`;
+    };
+
+    const distances = document.getElementsByClassName("distance");
+
+    Array.from(distances).forEach(i => {
+        const time = parseInt(i.textContent);
+        if (isNaN(time)) return;
+        let convertedDistance = convertMetersToKilometers(parseInt(i.textContent));
+        i.textContent = convertedDistance;
+    });
 </script>

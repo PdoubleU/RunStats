@@ -11,6 +11,7 @@ using NuGet.Protocol;
 using RunStats.Data;
 using RunStats.Models;
 using RunStats.Services;
+using RunStats.Utils;
 
 namespace RunStats.Controllers
 {
@@ -60,26 +61,44 @@ namespace RunStats.Controllers
                 ViewData["NoDataMessage"] = "Brak danych do wyświetlenia.";
                 return View();
             }
-
-            // Znajdź najdłuższy bieg
             var longestRun = runningSessions.OrderByDescending(r => r.Distance).FirstOrDefault();
-
-            // Znajdź najlepsze tempo
             var bestPaceSession = runningSessions
-                .Where(r => r.Time.HasValue) // Ignoruj rekordy, w których Time = null
-                .OrderBy(r => r.Time / r.Distance) // Oblicz tempo i sortuj
+                .Where(r => r.Time.HasValue)
+                .OrderBy(r => r.Time / r.Distance)
                 .FirstOrDefault();
+            var topSessionUpTo2Km = runningSessions.Where(r => r.Distance <= 2000 && r.Time != null).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo5Km = runningSessions.Where(r => r.Distance > 2000 && r.Distance <= 5000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo10Km = runningSessions.Where(r => r.Distance > 5000 && r.Distance <= 10000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo20Km = runningSessions.Where(r => r.Distance > 10000 && r.Distance <= 20000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionAbove20Km = runningSessions.Where(r => r.Distance > 20000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
 
-            // Znajdź sesję z największym dystansem w różnych kategoriach
-            var topSessionUpTo2Km = runningSessions.Where(r => r.Distance <= 2).OrderByDescending(r => r.Time).LastOrDefault();
-            var topSessionUpTo5Km = runningSessions.Where(r => r.Distance > 2 && r.Distance <= 5).OrderByDescending(r => r.Time).LastOrDefault();
-            var topSessionUpTo10Km = runningSessions.Where(r => r.Distance > 5 && r.Distance <= 10).OrderByDescending(r => r.Time).LastOrDefault();
-            var topSessionUpTo20Km = runningSessions.Where(r => r.Distance > 10 && r.Distance <= 20).OrderByDescending(r => r.Time).LastOrDefault();
-            var topSessionAbove20Km = runningSessions.Where(r => r.Distance > 20).OrderByDescending(r => r.Time).LastOrDefault();
 
-            // Przekazanie danych do widoku
+            if(bestPaceSession != null)
+            {
+                bestPaceSession.Pace = SessionPace.CalculatePace(bestPaceSession);
+            }
+            if (topSessionUpTo2Km != null)
+            {
+                topSessionUpTo2Km.Pace = SessionPace.CalculatePace(topSessionUpTo2Km);
+            }
+            if (topSessionUpTo5Km != null)
+            {
+                topSessionUpTo5Km.Pace = SessionPace.CalculatePace(topSessionUpTo5Km);
+            }
+            if (topSessionUpTo10Km != null)
+            {
+                topSessionUpTo10Km.Pace = SessionPace.CalculatePace(topSessionUpTo10Km);
+            }
+            if (topSessionUpTo20Km != null)
+            {
+                topSessionUpTo20Km.Pace = SessionPace.CalculatePace(topSessionUpTo20Km);
+            }
+            if (topSessionAbove20Km != null)
+            {
+                topSessionAbove20Km.Pace = SessionPace.CalculatePace(topSessionAbove20Km);
+            }
+
             ViewData["LongestRun"] = longestRun;
-            // todo: 
             ViewData["BestPace"] = bestPaceSession;
             ViewData["TopSessionUpTo2Km"] = topSessionUpTo2Km;
             ViewData["TopSessionUpTo5Km"] = topSessionUpTo5Km;
@@ -181,7 +200,7 @@ namespace RunStats.Controllers
             // przed zakończeniem sesji możliwe jest usunięcie typu ćwiczenia oraz modelu obuwia - wtedy do widoku ładujemy null
             ViewData["ExerciseTypeId"] = exerciseType != null ? exerciseType.Id : null;
             ViewData["ShoesId"] = shoesModel != null ? shoesModel.Id : null;
-            ViewData[" lo"] = exerciseType != null ? exerciseType.ExerciseName : null;
+            ViewData["ExerciseName"] = exerciseType != null ? exerciseType.ExerciseName : null;
             ViewData["ShoesModel"] = shoesModel != null ? shoesModel.Model : null;
             ViewData["UserId"] = user.Id;
             return View(runningSession);

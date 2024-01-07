@@ -18,7 +18,7 @@
                 <span asp-validation-for="Date" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Distance" class="control-label"></label>
+                <label class="control-label">Distance (meters)</label>
                 <input asp-for="Distance" class="form-control" readOnly />
                 <span asp-validation-for="Distance" class="text-danger"></span>
             </div>
@@ -49,7 +49,7 @@
                     <input asp-for="ExerciseTypeId" class="form-control" asp-items="ViewBag.ExerciseTypeId" style="display: none;"></input>
                 } else
                 {
-                    <p>Typ treningu usunięty</p>
+                    <p>Traning type was deleted</p>
                 }
             </div>
 
@@ -61,7 +61,7 @@
                     <input asp-for="ShoesId" class="form-control" asp-items="ViewBag.ShoesId" style="display: none;"></input>
                 } else
                 {
-                    <p>Typ butów usunięty</p>
+                    <p>Shoes type was deleted</p>
                 }
             </div>
             <div class="form-group">

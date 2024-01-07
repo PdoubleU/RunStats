@@ -21,5 +21,7 @@ namespace RunStats.Models
         public virtual Weather? Weather { get; set; }
         public int? ShoesId { get; set; }
         public virtual Shoes? Shoes { get; set; }
+        [NotMapped]
+        public virtual string? Pace { get; set; }
     }
 }
