@@ -81,18 +81,22 @@ namespace RunStats.Controllers
         }
 
         // GET: ExerciseTypes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit([Bind("UserId")] int? id)
         {
+            ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             if (id == null || _context.ExerciseType == null)
             {
                 return NotFound();
             }
 
             var ExerciseType = await _context.ExerciseType.FindAsync(id);
-            if (ExerciseType == null)
+            if (ExerciseType == null || ExerciseType.UserId != user.Id)
             {
                 return NotFound();
             }
+
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ExerciseType.UserId);
             return View(ExerciseType);
         }
 
@@ -101,7 +105,7 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ExerciseName")] ExerciseType ExerciseType)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ExerciseName,UserId")] ExerciseType ExerciseType)
         {
             if (id != ExerciseType.Id)
             {
@@ -128,6 +132,8 @@ namespace RunStats.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ExerciseType.UserId);
+
             return View(ExerciseType);
         }
 

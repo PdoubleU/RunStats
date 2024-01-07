@@ -88,7 +88,7 @@ namespace RunStats.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-            
+
             if (id == null || _context.Shoes == null)
             {
                 return NotFound();
@@ -99,6 +99,10 @@ namespace RunStats.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["UserId"] = user.Id;
+            ViewData["ShoesTypeId"] = new SelectList(_context.Set<ShoesType>().Where(s => s.UserId == user.Id), "Id", "Id");
+
             return View(shoes);
         }
 

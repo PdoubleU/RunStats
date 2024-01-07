@@ -81,7 +81,7 @@ namespace RunStats.Controllers
         }
 
         // GET: ShoesTypes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit([Bind("UserId")] int? id)
         {
             ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
 
@@ -90,12 +90,14 @@ namespace RunStats.Controllers
                 return NotFound();
             }
 
-            var shoesType = await _context.ShoesType.FindAsync(id);
-            if (shoesType == null || shoesType.UserId != user.Id)
+            var ShoesType = await _context.ShoesType.FindAsync(id);
+            if (ShoesType == null || ShoesType.UserId != user.Id)
             {
                 return NotFound();
             }
-            return View(shoesType);
+
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", ShoesType.UserId);
+            return View(ShoesType);
         }
 
         // POST: ShoesTypes/Edit/5
