@@ -181,7 +181,7 @@ namespace RunStats.Controllers
             // przed zakończeniem sesji możliwe jest usunięcie typu ćwiczenia oraz modelu obuwia - wtedy do widoku ładujemy null
             ViewData["ExerciseTypeId"] = exerciseType != null ? exerciseType.Id : null;
             ViewData["ShoesId"] = shoesModel != null ? shoesModel.Id : null;
-            ViewData["ExerciseName"] = exerciseType != null ? exerciseType.ExerciseName : null;
+            ViewData[" lo"] = exerciseType != null ? exerciseType.ExerciseName : null;
             ViewData["ShoesModel"] = shoesModel != null ? shoesModel.Model : null;
             ViewData["UserId"] = user.Id;
             return View(runningSession);

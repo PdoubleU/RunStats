@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create" submitdisabledcontrols="true" runat="server" onsubmit="calculateMilliseconds();">
+        <form asp-action="Create" submitdisabledcontrols="true" runat="server" onsubmit="handleSubmit();">
             <div class="form-group">
                 <label class="control-label">Start timer</label>
                 <input type="checkbox" id="autoStartSessionCheckbox" />
@@ -54,9 +54,9 @@
             <h6>Coordinates:</h6>
             <div class="form-group">
                 <label class="control-label">Longitude</label>
-                <input name="longitude" class="form-control" id="longitude">
+                <input name="longitude" class="form-control" id="longitude" readOnly/>
                 <label class="control-label">Latitude</label>
-                <input name="latitude" class="form-control" id="latitude"/>
+                <input name="latitude" class="form-control" id="latitude" readOnly/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -85,7 +85,6 @@
     function loadPosition(position) {
         const latitudeInput = document.getElementById("latitude");
         const longitudeInput = document.getElementById("longitude");
-        longitudeInput.readOnly = latitudeInput.readOnly = true;
         latitudeInput.value = position.coords.latitude;
         longitudeInput.value = position.coords.longitude;
     };
@@ -129,6 +128,21 @@
         }
     });
 
+
+    function loadDefaultCoordinates() {
+        const lng = document.getElementById("longitude");
+        const lat = document.getElementById("latitude");
+
+        if (!lng.value || !lat.value) {
+            console.log("TEST");
+            const defaultLng = "21.0067249";
+            const defaultLat = "52.2319581";
+
+            lng.value = defaultLng;
+            lat.value = defaultLat;
+        }
+    }
+
     function calculateMilliseconds() {
         var timeInput = document.getElementById('timeInput');
         // jesli pole zostalo wczesniej zablokowane, przerwij:
@@ -139,7 +153,13 @@
         var seconds = parseInt(document.getElementById('seconds').value) || 0;
         var totalMilliseconds = (hours * 3600 + minutes * 60 + seconds) * 1000;
         timeInput.value = totalMilliseconds;
+    }
+
+    function handleSubmit() {
+        loadDefaultCoordinates();
+        calculateMilliseconds();
         // Zwrócenie true, aby kontynuować wysyłanie formularza
         return true;
     }
+
 </script>
