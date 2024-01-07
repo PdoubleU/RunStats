@@ -9,4 +9,4 @@
 5.	Projekt można uruchomić poprzez GUI (zielony przycisk start w pasku zadań) bądź z wiesza poleceń komendą dotnet run
 6.	Instrukcja obsługi aplikacji znajduję się na stronie Home projektu (powinna załadować się jako domyślna)
 7.	Jeśli nie możesz uruchomić projektu, możesz skorzystać z wersji udostępnionej publicznie pod adresem: https://runstats20240104204945.azurewebsites.net
-8.	Aplikacja powstała w środowisku Windows 10 - bardzo prawdopdobne, że będziesz miał problemy z uruchomieniem bazy danych SQL na systemach macOS - w sieci są dostępne instrukcje, jak obejść ten problem.
+8.	Aplikacja powstała w środowisku Windows 10/11 - bardzo prawdopdobne, że będziesz miał problemy z uruchomieniem bazy danych SQL na systemach macOS - w sieci są dostępne instrukcje, jak obejść ten problem.
