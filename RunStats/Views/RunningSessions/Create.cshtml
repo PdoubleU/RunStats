@@ -45,11 +45,25 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Exercise Type</label>
-                <select asp-for="ExerciseTypeId" class ="form-control" asp-items="ViewBag.ExerciseTypeId"></select>
+                @if (ViewBag.ExerciseTypeId != null)
+                {
+                    <select asp-for="ExerciseTypeId" class="form-control" asp-items="ViewBag.ExerciseTypeId"></select>
+                }
+                else
+                {
+                    <p>!Please first create exercise type (Exercise types), otherwise session will be created without any!</p>
+                }
             </div>
             <div class="form-group">
                 <label class="control-label">Shoes Type</label>
-                <select asp-for="ShoesId" class ="form-control" asp-items="ViewBag.ShoesId"></select>
+                @if (ViewBag.ShoesId != null)
+                {
+                    <select asp-for="ShoesId" class="form-control" asp-items="ViewBag.ShoesId"></select>
+                }
+                else
+                {
+                    <p>!Please first create shoes model (Shoes), otherwise session will be created without any!</p>
+                }
             </div>
             <h6>Coordinates:</h6>
             <div class="form-group">

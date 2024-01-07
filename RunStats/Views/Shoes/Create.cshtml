@@ -23,7 +23,15 @@
             </div>
             <div class="form-group">
                 <label class="control-label">Shoes Type</label>
-                <select asp-for="ShoesTypeId" class ="form-control" asp-items="ViewBag.ShoesTypeId"></select>
+                @if (ViewBag.ShoesTypeId != null)
+                {
+                    <select asp-for="ShoesTypeId" class="form-control" asp-items="ViewBag.ShoesTypeId"></select>
+                }
+                else
+                {
+                    <p>!Please first create shoes type (Shoes types), otherwise the shoes model will be created without any!</p>
+                }
+               
             </div>
             <div class="form-group" style="visibility: hidden;">
                 <label asp-for="UserId" class="control-label"></label>

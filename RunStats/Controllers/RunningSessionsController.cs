@@ -139,8 +139,11 @@ namespace RunStats.Controllers
         {
             ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>().Where(e => e.UserId == user.Id), "Id", "ExerciseName", "ExerciseName");
-            ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>().Where(s => s.UserId == user.Id), "Id", "Model", "Model");
+            var exercisesList = new SelectList(_context.Set<ExerciseType>().Where(e => e.UserId == user.Id), "Id", "ExerciseName", "ExerciseName");
+            var shoesList = new SelectList(_context.Set<Shoes>().Where(s => s.UserId == user.Id), "Id", "Model", "Model");
+
+            ViewData["ExerciseTypeId"] = exercisesList.Any() ? exercisesList : null;
+            ViewData["ShoesId"] = shoesList.Any() ? shoesList : null;
             ViewData["UserId"] = user.Id;
             return View();
         }
