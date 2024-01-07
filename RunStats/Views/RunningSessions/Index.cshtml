@@ -22,7 +22,7 @@
                 Duration
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ExerciseType.ExerciseName)
+                Exercise Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Weather.Location)
@@ -30,7 +30,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Shoes.Model)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -39,8 +38,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Distance)
+            <td class="distance">
+               @(item.Distance)
             </td>
             <td>
                     @if (item.Time == null)
@@ -89,4 +88,17 @@
         i.textContent = convertedTime;
     });
 
+    function convertMetersToKilometers(meters) {
+        const kilometers = (meters / 1000).toFixed(3);
+        return `${kilometers} km`;
+    };
+
+    const distances = document.getElementsByClassName("distance");
+
+    Array.from(distances).forEach(i => {
+        const time = parseInt(i.innerText);
+        if (isNaN(time)) return;
+        let convertedDistance = convertMetersToKilometers(parseInt(i.innerText));
+        i.innerText = convertedDistance;
+    });
 </script>

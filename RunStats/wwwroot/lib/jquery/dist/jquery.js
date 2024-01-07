@@ -5743,7 +5743,7 @@ jQuery.Event = function( src, props ) {
 	}
 
 	// Create a timestamp if incoming event doesn't have one
-	this.timeStamp = src && src.timeStamp || Date.now();
+	this.TimeStamp = src && src.TimeStamp || Date.now();
 
 	// Mark it as fixed
 	this[ jQuery.expando ] = true;
@@ -7644,7 +7644,7 @@ function Animation( elem, properties, options ) {
 		.fail( animation.opts.fail )
 		.always( animation.opts.always );
 
-	jQuery.fx.timer(
+	jQuery.fx.Timer(
 		jQuery.extend( tick, {
 			elem: elem,
 			anim: animation,
@@ -7786,7 +7786,7 @@ jQuery.fn.extend( {
 		return this.each( function() {
 			var dequeue = true,
 				index = type != null && type + "queueHooks",
-				timers = jQuery.timers,
+				timers = jQuery.Timers,
 				data = dataPriv.get( this );
 
 			if ( index ) {
@@ -7828,7 +7828,7 @@ jQuery.fn.extend( {
 				data = dataPriv.get( this ),
 				queue = data[ type + "queue" ],
 				hooks = data[ type + "queueHooks" ],
-				timers = jQuery.timers,
+				timers = jQuery.Timers,
 				length = queue ? queue.length : 0;
 
 			// Enable finishing flag on private data
@@ -7885,11 +7885,11 @@ jQuery.each( {
 	};
 } );
 
-jQuery.timers = [];
+jQuery.Timers = [];
 jQuery.fx.tick = function() {
 	var timer,
 		i = 0,
-		timers = jQuery.timers;
+		timers = jQuery.Timers;
 
 	fxNow = Date.now();
 
@@ -7908,8 +7908,8 @@ jQuery.fx.tick = function() {
 	fxNow = undefined;
 };
 
-jQuery.fx.timer = function( timer ) {
-	jQuery.timers.push( timer );
+jQuery.fx.Timer = function( timer ) {
+	jQuery.Timers.push( timer );
 	jQuery.fx.start();
 };
 
@@ -9671,10 +9671,10 @@ jQuery.extend( {
 			}
 
 			// Timeout
-			if ( s.async && s.timeout > 0 ) {
+			if ( s.async && s.Timeout > 0 ) {
 				timeoutTimer = window.setTimeout( function() {
 					jqXHR.abort( "timeout" );
-				}, s.timeout );
+				}, s.Timeout );
 			}
 
 			try {
@@ -10411,7 +10411,7 @@ jQuery.fn.load = function( url, params, callback ) {
 
 
 jQuery.expr.pseudos.animated = function( elem ) {
-	return jQuery.grep( jQuery.timers, function( fn ) {
+	return jQuery.grep( jQuery.Timers, function( fn ) {
 		return elem === fn.elem;
 	} ).length;
 };
