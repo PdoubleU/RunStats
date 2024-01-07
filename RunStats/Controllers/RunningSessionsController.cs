@@ -66,7 +66,7 @@ namespace RunStats.Controllers
                 .Where(r => r.Time.HasValue)
                 .OrderBy(r => r.Time / r.Distance)
                 .FirstOrDefault();
-            var topSessionUpTo2Km = runningSessions.Where(r => r.Distance <= 2000 && r.Time != null).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
+            var topSessionUpTo2Km = runningSessions.Where(r => r.Distance <= 2000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
             var topSessionUpTo5Km = runningSessions.Where(r => r.Distance > 2000 && r.Distance <= 5000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
             var topSessionUpTo10Km = runningSessions.Where(r => r.Distance > 5000 && r.Distance <= 10000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
             var topSessionUpTo20Km = runningSessions.Where(r => r.Distance > 10000 && r.Distance <= 20000).OrderBy(r => r.Time / r.Distance).FirstOrDefault();
