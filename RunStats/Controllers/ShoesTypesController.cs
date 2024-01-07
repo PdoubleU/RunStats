@@ -69,7 +69,7 @@ namespace RunStats.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TypeName, UserId")] ShoesType shoesType)
+        public async Task<IActionResult> Create([Bind("Id,TypeName,UserId")] ShoesType shoesType)
         {
             if (ModelState.IsValid)
             {

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using RunStats.Data;
 using RunStats.Models;
 using RunStats.Services;
@@ -119,8 +120,8 @@ namespace RunStats.Controllers
         {
             ApplicationUser user = await _userManager.FindByNameAsync(User.Identity.Name);
 
-            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>().Where(e => e.UserId == user.Id), "Id", "Id");
-            ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>().Where(s => s.UserId == user.Id), "Id", "Id");
+            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>().Where(e => e.UserId == user.Id), "Id", "ExerciseName", "ExerciseName");
+            ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>().Where(s => s.UserId == user.Id), "Id", "Model", "Model");
             ViewData["UserId"] = user.Id;
             return View();
         }
@@ -156,9 +157,6 @@ namespace RunStats.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>(), "Id", "Id", runningSession.ExerciseTypeId);
-            ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>(), "Id", "Id", runningSession.ShoesId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", runningSession.UserId);
             return View(runningSession);
         }
 
@@ -173,13 +171,19 @@ namespace RunStats.Controllers
             }
 
             var runningSession = await _context.RunningSession.FindAsync(id);
+            var shoesModel = await _context.Shoes.FindAsync(runningSession.ShoesId);
+            var exerciseType = await _context.ExerciseType.FindAsync(runningSession.ExerciseTypeId);
+
             if (runningSession == null || runningSession.UserId != user.Id)
             {
                 return NotFound();
             }
-            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>(), "Id", "Id", runningSession.ExerciseTypeId);
-            ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>(), "Id", "Id", runningSession.ShoesId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", runningSession.UserId);
+            // przed zakończeniem sesji możliwe jest usunięcie typu ćwiczenia oraz modelu obuwia - wtedy do widoku ładujemy null
+            ViewData["ExerciseTypeId"] = exerciseType != null ? exerciseType.Id : null;
+            ViewData["ShoesId"] = shoesModel != null ? shoesModel.Id : null;
+            ViewData["ExerciseName"] = exerciseType != null ? exerciseType.ExerciseName : null;
+            ViewData["ShoesModel"] = shoesModel != null ? shoesModel.Model : null;
+            ViewData["UserId"] = user.Id;
             return View(runningSession);
         }
 
@@ -215,9 +219,7 @@ namespace RunStats.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ExerciseTypeId"] = new SelectList(_context.Set<ExerciseType>(), "Id", "Id", runningSession.ExerciseTypeId);
-            ViewData["ShoesId"] = new SelectList(_context.Set<Shoes>(), "Id", "Id", runningSession.ShoesId);
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", runningSession.UserId);
+
             return View(runningSession);
         }
 
